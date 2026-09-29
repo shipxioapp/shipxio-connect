@@ -1,0 +1,814 @@
+/**
+ * Shipxio Connect WordPress frontend
+ * wordpress/shipxio-connect/assets/css/app.css
+ *
+ * Provides the visual styling inside the WordPress shortcode.
+ */
+
+
+.shipxio-connect,
+.shipxio-connect * {
+    box-sizing: border-box;
+}
+
+/**
+ * Several components below set `display`, which outranks the user-agent rule
+ * for [hidden]. Without this, elements toggled with `element.hidden` stay
+ * visible and keep occupying layout space.
+ */
+.shipxio-connect [hidden] {
+    display: none !important;
+}
+
+/** Available to assistive technology, removed from the visual layout. */
+.shipxio-connect .visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.shipxio-connect {
+    background: var(--mpx-clr-owh);
+}
+
+.shipxio-connect {
+    margin: 0;
+    background: var(--mpx-clr-owh);
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-body);
+    font-weight: var(--mpx-fw-n);
+    line-height: var(--mpx-lh-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+.shipxio-connect button,
+.shipxio-connect input {
+    font: inherit;
+}
+
+.shipxio-connect button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ======================================================
+   Page
+   ====================================================== */
+
+.shipxio-connect .page {
+    width: min(920px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 4rem 0 5rem;
+}
+
+.shipxio-connect .page-header {
+    margin-bottom: var(--mpx-pad-xxl);
+}
+
+.shipxio-connect .page-header h1 {
+    margin: 0;
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-h4);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-h4);
+    letter-spacing: -0.03em;
+}
+
+.shipxio-connect .page-header p {
+    margin: 0.25rem 0 0;
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xs);
+    line-height: var(--mpx-lh-xs);
+}
+
+/* ======================================================
+   Sections
+   ====================================================== */
+
+.shipxio-connect .section {
+    margin-bottom: var(--mpx-pad-xl);
+    padding: var(--mpx-pad-xxl);
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-lg);
+    background: var(--mpx-clr-wh);
+    box-shadow: 0 2px 10px rgba(var(--mpx-clr-blk-rgb), 0.035);
+}
+
+.shipxio-connect .section-header {
+    margin-bottom: var(--mpx-pad-xl);
+}
+
+.shipxio-connect .section-header h2 {
+    margin: 0;
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-headline);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-headline);
+    letter-spacing: -0.015em;
+}
+
+.shipxio-connect .section-header p,
+.shipxio-connect .estimate-section-heading p {
+    margin: 0.25rem 0 0;
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xs);
+    line-height: var(--mpx-lh-xs);
+}
+
+/* ======================================================
+   Calculator Form
+   ====================================================== */
+
+.shipxio-connect .calculator-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mpx-pad-lg);
+}
+
+.shipxio-connect .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--mpx-pad-lg);
+}
+
+.shipxio-connect .field {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--mpx-pad-sm);
+}
+
+.shipxio-connect .field label {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: var(--mpx-lh-xs);
+}
+
+.shipxio-connect .field-help {
+    margin: -0.25rem 0 0;
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .field input {
+    width: 100%;
+    min-height: 46px;
+    padding: 0 var(--mpx-pad-md);
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-sm);
+    background: var(--mpx-clr-wh);
+    color: var(--mpx-clr-acc-a);
+    outline: none;
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.shipxio-connect .field input::placeholder {
+    color: var(--mpx-clr-gray-l);
+}
+
+.shipxio-connect .field input:hover {
+    border-color: var(--mpx-clr-gray-l);
+}
+
+.shipxio-connect .field input:focus {
+    border-color: var(--mpx-clr-pri);
+    box-shadow: 0 0 0 3px rgba(var(--mpx-clr-pri-rgb), 0.1);
+}
+
+.shipxio-connect button:focus-visible,
+.shipxio-connect .estimate-result:focus-visible {
+    outline: 2px solid var(--mpx-clr-pri);
+    outline-offset: 2px;
+}
+
+.shipxio-connect .calculator-form>button {
+    align-self: flex-start;
+    min-height: 44px;
+    padding: var(--mpx-btn-pad-sm);
+    border: 1px solid var(--mpx-clr-pri);
+    border-radius: var(--mpx-brd-sm);
+    background: var(--mpx-clr-pri);
+    color: var(--mpx-clr-wh);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        transform 100ms ease,
+        opacity 160ms ease;
+}
+
+.shipxio-connect .calculator-form>button:hover:not(:disabled) {
+    border-color: var(--mpx-clr-sec);
+    background: var(--mpx-clr-sec);
+}
+
+.shipxio-connect .calculator-form>button:active:not(:disabled) {
+    transform: translateY(1px);
+}
+
+.shipxio-connect .calculator-form>button:disabled {
+    border-color: var(--mpx-clr-disabled-l);
+    background: var(--mpx-clr-disabled-l);
+    cursor: wait;
+    opacity: 0.7;
+}
+
+/* ======================================================
+   HS Code Suggestions
+   ====================================================== */
+
+.shipxio-connect .suggestions {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 0.375rem);
+    right: 0;
+    left: 0;
+    overflow-y: auto;
+    max-height: 320px;
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-md);
+    background: var(--mpx-clr-wh);
+    box-shadow: var(--mpx-shd-hv-md);
+}
+
+.shipxio-connect .suggestion {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: var(--mpx-pad-md);
+    border: 0;
+    border-bottom: 1px solid var(--mpx-clr-muted-l);
+    background: var(--mpx-clr-wh);
+    color: var(--mpx-clr-acc-a);
+    text-align: left;
+    cursor: pointer;
+    transition: background 120ms ease;
+}
+
+.shipxio-connect .suggestion:last-child {
+    border-bottom: 0;
+}
+
+.shipxio-connect .suggestion:hover,
+.shipxio-connect .suggestion.is-active {
+    background: rgba(var(--mpx-clr-pri-rgb), 0.05);
+}
+
+.shipxio-connect .suggestion.is-active {
+    box-shadow: inset 3px 0 0 var(--mpx-clr-pri);
+    outline: none;
+}
+
+.shipxio-connect .suggestion strong {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: var(--mpx-lh-xs);
+}
+
+.shipxio-connect .suggestion span {
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .suggestions-empty {
+    padding: var(--mpx-pad-md);
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xs);
+    line-height: var(--mpx-lh-xs);
+}
+
+/* ======================================================
+   Selected Item
+   ====================================================== */
+
+.shipxio-connect .selected-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mpx-pad-md);
+    padding: var(--mpx-pad-md);
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-sm);
+    background: var(--mpx-surface-l);
+}
+
+.shipxio-connect .selected-item-text {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.shipxio-connect .selected-item strong {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: var(--mpx-lh-xs);
+    overflow-wrap: anywhere;
+}
+
+.shipxio-connect .selected-item span {
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+    overflow-wrap: anywhere;
+}
+
+.shipxio-connect .selected-item-clear {
+    flex-shrink: 0;
+    min-height: 32px;
+    padding: 0 var(--mpx-pad-md);
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-sm);
+    background: var(--mpx-clr-wh);
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    font-weight: var(--mpx-fw-sb);
+    cursor: pointer;
+    transition:
+        border-color 120ms ease,
+        background 120ms ease,
+        color 120ms ease;
+}
+
+.shipxio-connect .selected-item-clear:hover {
+    border-color: var(--mpx-clr-pri);
+    background: rgba(var(--mpx-clr-pri-rgb), 0.04);
+    color: var(--mpx-clr-pri);
+}
+
+/* ======================================================
+   Status
+   ====================================================== */
+
+.shipxio-connect .status {
+    margin: var(--mpx-pad-lg) 0 0;
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xs);
+    line-height: var(--mpx-lh-xs);
+}
+
+.shipxio-connect .status-error {
+    color: var(--mpx-clr-err-l);
+}
+
+/* ======================================================
+   Estimate
+   ====================================================== */
+
+.shipxio-connect .estimate-result {
+    display: flex;
+    margin-top: var(--mpx-pad-xxl);
+    flex-direction: column;
+    gap: var(--mpx-pad-xxl);
+    outline: none;
+}
+
+.shipxio-connect .estimate-section {
+    min-width: 0;
+}
+
+.shipxio-connect .estimate-section-heading {
+    margin-bottom: var(--mpx-pad-md);
+}
+
+.shipxio-connect .estimate-section-heading h3 {
+    margin: 0;
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-sm);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-sm);
+}
+
+/* ======================================================
+   Estimate Cards
+   ====================================================== */
+
+.shipxio-connect .estimate-card {
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-md);
+    background: var(--mpx-clr-wh);
+}
+
+/* Package details */
+
+.shipxio-connect .estimate-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+}
+
+.shipxio-connect .estimate-grid>div {
+    display: flex;
+    min-height: 80px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.125rem;
+    padding: var(--mpx-pad-lg);
+}
+
+.shipxio-connect .estimate-grid>div:nth-child(odd):not(:last-child) {
+    border-right: 1px solid var(--mpx-clr-muted-l);
+}
+
+.shipxio-connect .estimate-grid>div:nth-child(n + 3) {
+    border-top: 1px solid var(--mpx-clr-muted-l);
+}
+
+.shipxio-connect .estimate-grid>div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    border-right: 0;
+}
+
+.shipxio-connect .estimate-grid span {
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .estimate-grid strong {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-xs);
+}
+
+/* ======================================================
+   Item Classification
+   ====================================================== */
+
+.shipxio-connect .classification-heading {
+    display: flex;
+    min-height: 76px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.125rem;
+    padding: var(--mpx-pad-lg);
+}
+
+.shipxio-connect .classification-heading strong {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-sm);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-sm);
+}
+
+.shipxio-connect .classification-heading span {
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .estimate-grid-two {
+    margin: 0 var(--mpx-pad-lg);
+    border-top: 1px solid var(--mpx-brd-l);
+}
+
+.shipxio-connect .estimate-grid-two>div {
+    min-height: 70px;
+    padding: var(--mpx-pad-lg) 0;
+}
+
+.shipxio-connect .estimate-grid-two>div:first-child {
+    padding-right: var(--mpx-pad-lg);
+    border-right: 0;
+}
+
+.shipxio-connect .estimate-grid-two>div:last-child {
+    padding-left: var(--mpx-pad-lg);
+}
+
+.shipxio-connect .estimate-grid-two>div:nth-child(n + 3) {
+    border-top: 0;
+}
+
+/* ======================================================
+   Estimated Charges
+   ====================================================== */
+
+.shipxio-connect .estimate-row {
+    display: flex;
+    min-height: 56px;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mpx-pad-xl);
+    padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+    border-bottom: 1px solid var(--mpx-clr-muted-l);
+}
+
+.shipxio-connect .estimate-row>div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.shipxio-connect .estimate-row span {
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-md);
+    line-height: var(--mpx-lh-xs);
+    overflow-wrap: anywhere;
+}
+
+.shipxio-connect .estimate-row small {
+    color: var(--mpx-clr-gray-l);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .estimate-row strong {
+    flex-shrink: 0;
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-xs);
+}
+
+/* Amounts must never wrap away from their label. */
+.shipxio-connect .estimate-row strong,
+.shipxio-connect .estimate-total strong {
+    white-space: nowrap;
+}
+
+/* ======================================================
+   Estimated Total
+   ====================================================== */
+
+.shipxio-connect .estimate-total {
+    display: flex;
+    min-height: 72px;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--mpx-pad-xl);
+    margin: var(--mpx-pad-sm);
+    padding: var(--mpx-pad-lg);
+    border: 1px solid rgba(var(--mpx-clr-pri-rgb), 0.18);
+    border-radius: var(--mpx-brd-sm);
+    background: rgba(var(--mpx-clr-pri-rgb), 0.055);
+}
+
+.shipxio-connect .estimate-total span {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-xs);
+}
+
+.shipxio-connect .estimate-total strong {
+    color: var(--mpx-clr-pri);
+    font-size: var(--mpx-fs-h5);
+    font-weight: var(--mpx-fw-b);
+    line-height: var(--mpx-lh-h5);
+    letter-spacing: -0.025em;
+}
+
+/* ======================================================
+   Estimate Notices
+   ====================================================== */
+
+.shipxio-connect .estimate-notice {
+    margin-top: var(--mpx-pad-sm);
+    padding: var(--mpx-pad-md);
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-sm);
+    background: var(--mpx-surface-l);
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .estimate-notes {
+    margin-top: var(--mpx-pad-md);
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .estimate-notes p {
+    margin: 0.25rem 0 0;
+}
+
+/* ======================================================
+   Shipping Rates
+   ====================================================== */
+
+.shipxio-connect .rates-table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--mpx-brd-l);
+    border-radius: var(--mpx-brd-md);
+    background: var(--mpx-clr-wh);
+}
+
+.shipxio-connect .rates-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.shipxio-connect .rates-table th,
+.shipxio-connect .rates-table td {
+    padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+    border-bottom: 1px solid var(--mpx-clr-muted-l);
+    text-align: left;
+    white-space: nowrap;
+}
+
+.shipxio-connect .rates-table th {
+    background: var(--mpx-surface-l);
+    color: var(--mpx-clr-gray-d);
+    font-size: var(--mpx-fs-xxs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: var(--mpx-lh-xxs);
+}
+
+.shipxio-connect .rates-table td {
+    color: var(--mpx-clr-acc-a);
+    font-size: var(--mpx-fs-xs);
+    font-weight: var(--mpx-fw-sb);
+    line-height: var(--mpx-lh-xs);
+}
+
+.shipxio-connect .rates-table tbody tr {
+    transition: background 120ms ease;
+}
+
+.shipxio-connect .rates-table tbody tr:hover {
+    background: rgba(var(--mpx-clr-pri-rgb), 0.025);
+}
+
+.shipxio-connect .rates-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.shipxio-connect .rates-table th:not(:first-child),
+.shipxio-connect .rates-table td:not(:first-child) {
+    text-align: right;
+}
+
+/* ======================================================
+   Responsive
+   ====================================================== */
+
+@media (max-width: 640px) {
+    .shipxio-connect .page {
+        width: min(100% - 24px, 920px);
+        padding: var(--mpx-pad-xxl) 0 3rem;
+    }
+
+    .shipxio-connect .page-header {
+        margin-bottom: var(--mpx-pad-xl);
+    }
+
+    .shipxio-connect .section {
+        margin-bottom: var(--mpx-pad-lg);
+        padding: var(--mpx-pad-lg);
+        border-radius: var(--mpx-brd-md);
+    }
+
+    .shipxio-connect .section-header {
+        margin-bottom: var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shipxio-connect .calculator-form>button {
+        width: 100%;
+    }
+
+    .shipxio-connect .selected-item {
+        align-items: flex-start;
+    }
+
+    .shipxio-connect .estimate-result {
+        margin-top: var(--mpx-pad-xxl);
+        gap: var(--mpx-pad-xxl);
+    }
+
+    .shipxio-connect .estimate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .shipxio-connect .estimate-grid>div,
+.shipxio-connect .estimate-grid>div:nth-child(odd):not(:last-child),
+.shipxio-connect .estimate-grid>div:nth-child(n + 3) {
+        min-height: 68px;
+        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+        border-right: 0;
+        border-top: 1px solid var(--mpx-clr-muted-l);
+    }
+
+    .shipxio-connect .estimate-grid>div:first-child {
+        border-top: 0;
+    }
+
+    .shipxio-connect .estimate-grid-two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin: 0 var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .estimate-grid-two>div,
+.shipxio-connect .estimate-grid-two>div:nth-child(n + 3) {
+        min-height: 68px;
+        border-top: 1px solid var(--mpx-brd-l);
+    }
+
+    .shipxio-connect .estimate-grid-two>div:first-child {
+        padding-right: var(--mpx-pad-md);
+        border-top: 1px solid var(--mpx-brd-l);
+    }
+
+    .shipxio-connect .estimate-grid-two>div:last-child {
+        padding-left: var(--mpx-pad-md);
+        border-top: 1px solid var(--mpx-brd-l);
+    }
+
+    .shipxio-connect .classification-heading {
+        min-height: 70px;
+        padding: var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .estimate-row {
+        min-height: 54px;
+        gap: var(--mpx-pad-md);
+        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .estimate-total {
+        min-height: 66px;
+        gap: var(--mpx-pad-md);
+        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .estimate-total strong {
+        font-size: var(--mpx-fs-headline);
+        line-height: var(--mpx-lh-headline);
+    }
+
+    .shipxio-connect .rates-table th,
+.shipxio-connect .rates-table td {
+        padding: var(--mpx-pad-md);
+    }
+
+    .shipxio-connect .suggestions {
+        max-height: 50vh;
+    }
+}
+
+@media (max-width: 420px) {
+    .shipxio-connect .page {
+        width: min(100% - 16px, 920px);
+    }
+
+    .shipxio-connect .section {
+        padding: var(--mpx-pad-lg);
+    }
+
+    .shipxio-connect .estimate-grid-two {
+        grid-template-columns: 1fr;
+    }
+
+    .shipxio-connect .estimate-grid-two>div:first-child,
+.shipxio-connect .estimate-grid-two>div:last-child {
+        padding: var(--mpx-pad-md) 0;
+        border-right: 0;
+    }
+
+    .shipxio-connect .estimate-grid-two>div:last-child {
+        border-top: 1px solid var(--mpx-clr-muted-l);
+    }
+
+    .shipxio-connect .estimate-row {
+        align-items: flex-start;
+    }
+
+    .shipxio-connect .estimate-row strong {
+        padding-top: 0.0625rem;
+    }
+
+    .shipxio-connect .estimate-total {
+        align-items: center;
+    }
+}
