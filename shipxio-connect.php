@@ -1,16 +1,16 @@
 <?php
 /*
 Plugin Name: Shipxio Connect
-Plugin URI: https://shipxio.com
-Description: Connects WordPress websites to Shipxio for shipping rates, shipping estimates, and HS Code suggestions through the Website Integration API.
+Plugin URI: https://shipxio.com/shipxio-connect
+Description: Connects WordPress websites to Shipxio for shipping rates, shipping estimates, and HS Code suggestions.
 Version: 1.0.1
+Requires at least: 6.3
+Requires PHP: 8.1
 Author: Shipxio
 Author URI: https://shipxio.com
 License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: shipxio-connect
-Domain Path: /languages
-Requires at least: 6.3
-Requires PHP: 8.1
 */
 
 if (! defined('ABSPATH')) {
