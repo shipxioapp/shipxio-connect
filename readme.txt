@@ -33,6 +33,14 @@ Three shortcodes are available:
 * `[shipxio_connect_calculator]` displays the shipping calculator only.
 * `[shipxio_connect_rates]` displays the shipping rates only.
 
+Each shortcode shows a built-in title and short description above its section. Add `show_intro="false"` to hide that title and description and show only the calculator or rate table:
+
+* `[shipxio_connect show_intro="false"]`
+* `[shipxio_connect_calculator show_intro="false"]`
+* `[shipxio_connect_rates show_intro="false"]`
+
+Leaving the option out keeps the built-in title and description, so nothing changes on pages you have already published.
+
 The shortcodes work with normal WordPress content and can also be placed inside Elementor's standard Shortcode widget. Elementor is not required.
 
 Shipxio Connect does not add a heading or branding of its own, so your page keeps its own title and introduction.
@@ -50,6 +58,8 @@ The settings screen also offers two appearance settings, a primary color and a b
 7. Add `[shipxio_connect]` to the WordPress page where you want the shipping calculator and rates to appear.
 
 To display only one part of Shipxio Connect, use `[shipxio_connect_calculator]` or `[shipxio_connect_rates]` instead.
+
+To supply your own heading instead of the built-in one, add `show_intro="false"` to any of the shortcodes.
 
 Optionally, set the primary color and border radius under Appearance on the same settings screen.
 
@@ -110,6 +120,18 @@ No. The credential is used by the plugin's server-side PHP client and is not inc
 
 Yes. Use `[shipxio_connect_calculator]` for the shipping calculator on its own, or `[shipxio_connect_rates]` for the shipping rates on its own. `[shipxio_connect]` shows both.
 
+= Can I hide the built-in section titles? =
+
+Yes. Add `show_intro="false"` to any of the shortcodes:
+
+`[shipxio_connect show_intro="false"]`
+
+`[shipxio_connect_calculator show_intro="false"]`
+
+`[shipxio_connect_rates show_intro="false"]`
+
+That hides the heading and the short description above the section, which is useful when your page already has its own heading. The supported values are `true` and `false`. Omitting the option, or using `show_intro="true"`, keeps the built-in title and description.
+
 = Does Shipxio Connect work with Elementor? =
 
 Yes. Add any of the shortcodes to Elementor's standard Shortcode widget.
@@ -131,6 +153,9 @@ Both settings apply only to the Shipxio Connect output. They do not change your 
 Yes. Shipxio Connect inherits the host website's font family while retaining its own layout, sizing, spacing, and component styling.
 
 == Changelog ==
+
+= 1.0.5 =
+* Added a `show_intro` shortcode option for showing or hiding the built-in section titles and descriptions.
 
 = 1.0.4 =
 * Added independent Shipxio Connect update support using GitHub Releases.

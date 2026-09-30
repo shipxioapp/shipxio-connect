@@ -6,12 +6,18 @@ if (! defined('ABSPATH')) {
 }
 
 /** @var string $id */
+/** @var bool $show_intro */
 ?>
+<?php // Without the heading the section still needs an accessible name. ?>
+<?php if ($show_intro) : ?>
 <section class="section" aria-labelledby="<?php echo esc_attr($id); ?>-shipping-rates-title">
     <div class="section-header">
         <h2 id="<?php echo esc_attr($id); ?>-shipping-rates-title"><?php echo esc_html__('Shipping Rates', 'shipxio-connect'); ?></h2>
         <p><?php echo esc_html__('View current shipping rates by package weight.', 'shipxio-connect'); ?></p>
     </div>
+<?php else : ?>
+<section class="section" aria-label="<?php echo esc_attr__('Shipping Rates', 'shipxio-connect'); ?>">
+<?php endif; ?>
     <p data-shipxio-id="rates-status" class="status" role="status" aria-live="polite"><?php echo esc_html__('Loading shipping rates…', 'shipxio-connect'); ?></p>
     <div data-shipxio-id="rates-table-wrapper" class="rates-table-wrapper" hidden>
         <table class="rates-table">

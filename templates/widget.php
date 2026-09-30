@@ -8,6 +8,7 @@ if (! defined('ABSPATH')) {
 /** @var string $api_base */
 /** @var string $id */
 /** @var array $sections */
+/** @var bool $show_intro */
 
 $shipxio_connect_templates = array(
     'calculator' => __DIR__ . '/calculator.php',

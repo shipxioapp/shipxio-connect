@@ -132,19 +132,46 @@ function shipxio_connect_expand_hex_color($color)
     return $hex;
 }
 
-function shipxio_connect_render_shortcode()
+/**
+ * Read the shared shortcode attributes.
+ *
+ * Every shortcode parses its attributes here, so `show_intro` means the
+ * same thing whichever one is used. The documented syntax is "true" and
+ * "false"; other common boolean spellings are accepted rather than
+ * silently treated as true.
+ *
+ * @param array|string $atts Raw shortcode attributes.
+ * @param string       $tag  Shortcode tag, for the shortcode_atts filter.
+ * @return bool Whether the built-in title and description block is rendered.
+ */
+function shipxio_connect_show_intro($atts, $tag)
 {
-    return shipxio_connect_render_widget(array('calculator', 'rates'));
+    $parsed = shortcode_atts(array('show_intro' => 'true'), $atts, $tag);
+    $value = $parsed['show_intro'];
+
+    if (is_string($value)) {
+        $normalized = strtolower(trim($value));
+        if (in_array($normalized, array('false', 'no', 'off', '0', ''), true)) {
+            return false;
+        }
+    }
+
+    return wp_validate_boolean($value);
 }
 
-function shipxio_connect_render_calculator_shortcode()
+function shipxio_connect_render_shortcode($atts = array(), $content = null, $tag = 'shipxio_connect')
 {
-    return shipxio_connect_render_widget(array('calculator'));
+    return shipxio_connect_render_widget(array('calculator', 'rates'), shipxio_connect_show_intro($atts, $tag));
 }
 
-function shipxio_connect_render_rates_shortcode()
+function shipxio_connect_render_calculator_shortcode($atts = array(), $content = null, $tag = 'shipxio_connect_calculator')
 {
-    return shipxio_connect_render_widget(array('rates'));
+    return shipxio_connect_render_widget(array('calculator'), shipxio_connect_show_intro($atts, $tag));
+}
+
+function shipxio_connect_render_rates_shortcode($atts = array(), $content = null, $tag = 'shipxio_connect_rates')
+{
+    return shipxio_connect_render_widget(array('rates'), shipxio_connect_show_intro($atts, $tag));
 }
 
 /**
@@ -153,8 +180,9 @@ function shipxio_connect_render_rates_shortcode()
  * markup, and browser behavior.
  *
  * @param string[] $sections
+ * @param bool     $show_intro Whether each section renders its title block.
  */
-function shipxio_connect_render_widget($sections)
+function shipxio_connect_render_widget($sections, $show_intro = true)
 {
     wp_enqueue_style('shipxio-connect');
     wp_enqueue_script('shipxio-connect');
