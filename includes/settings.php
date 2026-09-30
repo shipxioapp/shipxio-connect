@@ -361,6 +361,7 @@ function shipxio_connect_render_settings_page()
             <div class="shipxio-connect-card-head">
                 <h2><?php echo esc_html__('Shortcodes', 'shipxio-connect'); ?></h2>
                 <p><?php echo esc_html__('Add one of these to any WordPress page or post. They also work inside Elementor\'s standard Shortcode widget.', 'shipxio-connect'); ?></p>
+                <p><?php echo esc_html__('Each shortcode shows its own title and description by default. Adding show_intro="false" hides them, which is useful when your page already has a heading of its own.', 'shipxio-connect'); ?></p>
             </div>
             <div class="shipxio-connect-card-body">
                 <ul class="shipxio-connect-shortcodes">
@@ -368,17 +369,32 @@ function shipxio_connect_render_settings_page()
                     shipxio_connect_render_shortcode_row(
                         '[shipxio_connect]',
                         __('Full experience', 'shipxio-connect'),
-                        __('The shipping calculator and the shipping rates.', 'shipxio-connect')
+                        __('The shipping calculator and the shipping rates, each with its title and description.', 'shipxio-connect')
+                    );
+                    shipxio_connect_render_shortcode_row(
+                        '[shipxio_connect show_intro="false"]',
+                        __('Full experience, titles hidden', 'shipxio-connect'),
+                        __('The same two sections without their titles and descriptions.', 'shipxio-connect')
                     );
                     shipxio_connect_render_shortcode_row(
                         '[shipxio_connect_calculator]',
                         __('Calculator only', 'shipxio-connect'),
-                        __('The shipping calculator on its own.', 'shipxio-connect')
+                        __('The shipping calculator on its own, with its title and description.', 'shipxio-connect')
+                    );
+                    shipxio_connect_render_shortcode_row(
+                        '[shipxio_connect_calculator show_intro="false"]',
+                        __('Calculator only, title hidden', 'shipxio-connect'),
+                        __('The shipping calculator on its own, without its title and description.', 'shipxio-connect')
                     );
                     shipxio_connect_render_shortcode_row(
                         '[shipxio_connect_rates]',
                         __('Rates only', 'shipxio-connect'),
-                        __('The shipping rates on its own.', 'shipxio-connect')
+                        __('The shipping rates on its own, with the title and description.', 'shipxio-connect')
+                    );
+                    shipxio_connect_render_shortcode_row(
+                        '[shipxio_connect_rates show_intro="false"]',
+                        __('Rates only, title hidden', 'shipxio-connect'),
+                        __('The shipping rates on its own, without the title and description.', 'shipxio-connect')
                     );
                     ?>
                 </ul>
