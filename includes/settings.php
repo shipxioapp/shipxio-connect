@@ -178,7 +178,7 @@ function shipxio_connect_enqueue_settings_assets($hook)
 /** The plugin mark shipped with the plugin, never loaded from shipxio.com. */
 function shipxio_connect_mark_url()
 {
-    return plugin_dir_url(SHIPXIO_CONNECT_FILE) . 'assets/images/shipxio-connect-mark.png';
+    return plugin_dir_url(SHIPXIO_CONNECT_FILE) . 'assets/images/shipxio-connect-mark.webp';
 }
 
 function shipxio_connect_render_base_url_field()
