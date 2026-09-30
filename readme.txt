@@ -132,6 +132,10 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.4 =
+* Added independent Shipxio Connect update support using GitHub Releases.
+* Added automated release packaging and update metadata publishing.
+
 = 1.0.3 =
 * Refined the shortcode layout to use the full available width without extra container padding.
 * Refined the admin settings interface.
