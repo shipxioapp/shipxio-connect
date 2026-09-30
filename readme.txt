@@ -154,6 +154,9 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.6 =
+* Fixed update checks so newly published Shipxio Connect releases can be detected immediately.
+
 = 1.0.5 =
 * Added a `show_intro` shortcode option for showing or hiding the built-in section titles and descriptions.
 

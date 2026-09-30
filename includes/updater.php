@@ -21,7 +21,12 @@ define('SHIPXIO_CONNECT_MANIFEST_URL', 'https://raw.githubusercontent.com/shipxi
 /** Release assets may only come from the project's own GitHub releases. */
 define('SHIPXIO_CONNECT_PACKAGE_PREFIX', 'https://github.com/shipxioapp/shipxio-connect/releases/download/');
 
-define('SHIPXIO_CONNECT_MANIFEST_TRANSIENT', 'shipxio_connect_update_manifest');
+/**
+ * Remembers only that a fetch failed. There is deliberately no cache of a
+ * successful manifest: WordPress's own update_plugins transient already
+ * decides how often plugin updates are checked.
+ */
+define('SHIPXIO_CONNECT_FAILURE_TRANSIENT', 'shipxio_connect_update_failed');
 
 /** The installed directory name, which is also the slug WordPress asks about. */
 function shipxio_connect_plugin_slug()
@@ -32,21 +37,37 @@ function shipxio_connect_plugin_slug()
 }
 
 /**
- * Fetch and cache the public manifest.
+ * Whether WordPress is running an update check the administrator asked for.
  *
- * Both outcomes are cached: a good manifest for six hours, and a failure for
- * fifteen minutes, so an unreachable GitHub cannot make the plugins screen
- * wait on a network round trip over and over.
+ * Dashboard > Updates, including its "Check again" button, runs the plugin
+ * check inside the load-update-core.php action, and a finished upgrade
+ * re-checks inside upgrader_process_complete. In both cases nothing of ours
+ * may stand between the administrator and a newly published release.
+ */
+function shipxio_connect_is_manual_update_check()
+{
+    return doing_action('load-update-core.php') || doing_action('upgrader_process_complete');
+}
+
+/**
+ * Fetch the public manifest.
+ *
+ * A successful manifest is deliberately not cached. WordPress only calls the
+ * update filter when it actually performs a check, and it already throttles
+ * that to roughly twice a day, hourly on the plugins screen, and every minute
+ * on the updates screen. Caching a good manifest on a separate six hour clock
+ * added nothing and hid newly published releases until it expired.
+ *
+ * A failure is remembered briefly so an unreachable GitHub cannot stall the
+ * plugins screen on every load. That short memory is skipped for a manual
+ * check, which must always be allowed to reach the network.
  *
  * @return array|null The validated manifest, or null when unavailable.
  */
 function shipxio_connect_update_manifest()
 {
-    $cached = get_transient(SHIPXIO_CONNECT_MANIFEST_TRANSIENT);
-    if (is_array($cached)) {
-        return $cached;
-    }
-    if ('unavailable' === $cached) {
+    if (! shipxio_connect_is_manual_update_check()
+        && 'unavailable' === get_transient(SHIPXIO_CONNECT_FAILURE_TRANSIENT)) {
         return null;
     }
 
@@ -58,17 +79,17 @@ function shipxio_connect_update_manifest()
     ));
 
     if (is_wp_error($response) || 200 !== (int) wp_remote_retrieve_response_code($response)) {
-        set_transient(SHIPXIO_CONNECT_MANIFEST_TRANSIENT, 'unavailable', 15 * MINUTE_IN_SECONDS);
+        set_transient(SHIPXIO_CONNECT_FAILURE_TRANSIENT, 'unavailable', 5 * MINUTE_IN_SECONDS);
         return null;
     }
 
     $manifest = shipxio_connect_validate_manifest(json_decode((string) wp_remote_retrieve_body($response), true));
     if (null === $manifest) {
-        set_transient(SHIPXIO_CONNECT_MANIFEST_TRANSIENT, 'unavailable', 15 * MINUTE_IN_SECONDS);
+        set_transient(SHIPXIO_CONNECT_FAILURE_TRANSIENT, 'unavailable', 5 * MINUTE_IN_SECONDS);
         return null;
     }
 
-    set_transient(SHIPXIO_CONNECT_MANIFEST_TRANSIENT, $manifest, 6 * HOUR_IN_SECONDS);
+    delete_transient(SHIPXIO_CONNECT_FAILURE_TRANSIENT);
 
     return $manifest;
 }
