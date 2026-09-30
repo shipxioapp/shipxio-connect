@@ -436,6 +436,10 @@
         selectedItem.innerHTML = '';
     }
 
+    // The calculator and the rates each have their own shortcode, so a
+    // section this shortcode did not render simply has no elements to wire
+    // up. Everything below runs only when its own section is present.
+    if (calculatorForm) {
     itemSearch.addEventListener('input', () => {
         window.clearTimeout(suggestionTimer);
 
@@ -732,7 +736,11 @@
         `;
     }
 
-    loadShippingRates();
+    } // calculatorForm
+
+    if (ratesStatus) {
+        loadShippingRates();
+    }
         });
     }
 

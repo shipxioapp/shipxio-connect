@@ -4,7 +4,7 @@ Tags: shipping, shipping rates, shipping calculator, logistics
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.0.1
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,11 +27,17 @@ A Shipxio account with Website Integration access is required.
 
 The plugin uses a server-side connection to Shipxio. Your Website Integration credential is stored in WordPress and is not exposed to visitor-facing browser JavaScript.
 
-Shipxio Connect can be added to a page with:
+Three shortcodes are available:
 
-[shipxio_connect]
+* `[shipxio_connect]` displays the shipping calculator and the shipping rates.
+* `[shipxio_connect_calculator]` displays the shipping calculator only.
+* `[shipxio_connect_rates]` displays the shipping rates only.
 
-The shortcode works with normal WordPress content and can also be placed inside Elementor's standard Shortcode widget. Elementor is not required.
+The shortcodes work with normal WordPress content and can also be placed inside Elementor's standard Shortcode widget. Elementor is not required.
+
+Shipxio Connect does not add a heading or branding of its own, so your page keeps its own title and introduction.
+
+The settings screen also offers two appearance settings, a primary color and a border radius, so the calculator and rates can match your website. They apply to the plugin output only and never change the rest of your website.
 
 == Installation ==
 
@@ -42,6 +48,10 @@ The shortcode works with normal WordPress content and can also be placed inside 
 5. Copy the Website Integration credential and paste it into the matching WordPress field.
 6. Save the settings.
 7. Add `[shipxio_connect]` to the WordPress page where you want the shipping calculator and rates to appear.
+
+To display only one part of Shipxio Connect, use `[shipxio_connect_calculator]` or `[shipxio_connect_rates]` instead.
+
+Optionally, set the primary color and border radius under Appearance on the same settings screen.
 
 The Shipxio base URL is supplied directly by Shipxio. You do not need to add or edit API endpoint paths.
 
@@ -90,19 +100,31 @@ Copy the Shipxio base URL directly from your Website Integration settings in Shi
 
 Shipxio displays the credential when a Website Integration is created or its credential is rotated. Copy it when it is shown and save it in the Shipxio Connect settings.
 
+Once it is saved, the settings screen shows a masked "Credential configured" indicator instead of the credential itself. The saved credential is never displayed again. Leave the field blank when saving to keep it, or paste a new credential to replace it.
+
 = Is the Website Integration credential exposed to website visitors? =
 
 No. The credential is used by the plugin's server-side PHP client and is not included in the public shortcode HTML or visitor-facing JavaScript.
 
+= Can I show only the calculator or only the rates? =
+
+Yes. Use `[shipxio_connect_calculator]` for the shipping calculator on its own, or `[shipxio_connect_rates]` for the shipping rates on its own. `[shipxio_connect]` shows both.
+
 = Does Shipxio Connect work with Elementor? =
 
-Yes. Add `[shipxio_connect]` to Elementor's standard Shortcode widget.
+Yes. Add any of the shortcodes to Elementor's standard Shortcode widget.
 
-Elementor is optional. The shortcode also works in normal WordPress content.
+Elementor is optional. The shortcodes also work in normal WordPress content.
 
 = Does Shipxio Connect calculate shipping prices itself? =
 
 No. Shipxio remains authoritative for shipping rates, estimates, HS Code suggestions, and related calculations. The plugin displays the results returned by Shipxio.
+
+= Can I change the plugin's colors? =
+
+Yes. Settings > Shipxio Connect has a primary color and a border radius setting. The primary color is used for the calculate button, focus rings, and highlights. The border radius sets the corner rounding for fields, buttons, cards, and tables, from 0 to 24 pixels.
+
+Both settings apply only to the Shipxio Connect output. They do not change your theme, and the plugin does not accept custom CSS or HTML.
 
 = Does the plugin use my website's font? =
 
@@ -110,10 +132,21 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.3 =
+* Refined the shortcode layout to use the full available width without extra container padding.
+* Refined the admin settings interface.
+
+= 1.0.2 =
+* First WordPress.org release.
+* Added the `[shipxio_connect_calculator]` and `[shipxio_connect_rates]` shortcodes alongside `[shipxio_connect]`, so a page can show the shipping calculator and the shipping rates separately.
+* Added primary color and border radius appearance settings, applied to the plugin output only.
+* Added a masked "Credential configured" indicator to the settings screen, so a saved Website Integration credential is visible as configured without ever being displayed.
+* Removed the plugin's built-in heading and tagline, so the WordPress page keeps its own title and branding.
+
 = 1.0.1 =
-* Initial WordPress.org release.
+* Initial plugin build. Not published on WordPress.org.
 * Added Shipxio Website Integration configuration.
 * Added shipping rates.
 * Added the shipping calculator.
 * Added HS Code suggestions and selected classification estimates.
-* Added shortcode and Elementor Shortcode widget compatibility.
+* Added the `[shipxio_connect]` shortcode and Elementor Shortcode widget compatibility.

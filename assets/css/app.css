@@ -33,13 +33,15 @@
     white-space: nowrap;
 }
 
+/**
+ * The host page owns the outer layout. The plugin root fills the width it is
+ * given, paints no page-like surface of its own, and adds no outer margin.
+ */
 .shipxio-connect {
-    background: var(--mpx-clr-owh);
-}
-
-.shipxio-connect {
+    width: 100%;
+    max-width: 100%;
     margin: 0;
-    background: var(--mpx-clr-owh);
+    background: transparent;
     color: var(--mpx-clr-acc-a);
     font-size: var(--mpx-fs-body);
     font-weight: var(--mpx-fw-n);
@@ -61,30 +63,16 @@
    Page
    ====================================================== */
 
+/**
+ * Container width, max width, outer padding, centering, and the spacing
+ * around the plugin all belong to the WordPress, Gutenberg, Elementor, or
+ * theme container the shortcode was placed in.
+ */
 .shipxio-connect .page {
-    width: min(920px, calc(100% - 40px));
-    margin: 0 auto;
-    padding: 4rem 0 5rem;
-}
-
-.shipxio-connect .page-header {
-    margin-bottom: var(--mpx-pad-xxl);
-}
-
-.shipxio-connect .page-header h1 {
+    width: 100%;
+    max-width: none;
     margin: 0;
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-h4);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-h4);
-    letter-spacing: -0.03em;
-}
-
-.shipxio-connect .page-header p {
-    margin: 0.25rem 0 0;
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xs);
-    line-height: var(--mpx-lh-xs);
+    padding: 0;
 }
 
 /* ======================================================
@@ -98,6 +86,10 @@
     border-radius: var(--mpx-brd-lg);
     background: var(--mpx-clr-wh);
     box-shadow: 0 2px 10px rgba(var(--mpx-clr-blk-rgb), 0.035);
+}
+
+.shipxio-connect .section:last-child {
+    margin-bottom: 0;
 }
 
 .shipxio-connect .section-header {
@@ -671,15 +663,6 @@
    ====================================================== */
 
 @media (max-width: 640px) {
-    .shipxio-connect .page {
-        width: min(100% - 24px, 920px);
-        padding: var(--mpx-pad-xxl) 0 3rem;
-    }
-
-    .shipxio-connect .page-header {
-        margin-bottom: var(--mpx-pad-xl);
-    }
-
     .shipxio-connect .section {
         margin-bottom: var(--mpx-pad-lg);
         padding: var(--mpx-pad-lg);
@@ -778,10 +761,6 @@
 }
 
 @media (max-width: 420px) {
-    .shipxio-connect .page {
-        width: min(100% - 16px, 920px);
-    }
-
     .shipxio-connect .section {
         padding: var(--mpx-pad-lg);
     }

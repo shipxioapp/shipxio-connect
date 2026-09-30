@@ -1,0 +1,479 @@
+/**
+ * Shipxio Connect settings screen
+ * wordpress/shipxio-connect/assets/css/admin.css
+ *
+ * Every rule is scoped to .shipxio-connect-admin, the plugin's own settings
+ * page wrapper, so nothing here reaches the rest of WordPress Admin.
+ */
+
+.shipxio-connect-admin {
+    /* Shipxio brand colors. Source: design/shipxio-brand-colors.md */
+    --sxc-primary: #2A7FFF;
+    --sxc-secondary: #164C9E;
+    --sxc-accent-a: #0D0D0D;
+    --sxc-accent-b: #1A1A1A;
+    --sxc-white: #FFFFFF;
+    --sxc-gray-dark: #636363;
+    --sxc-gray-light: #9E9E9E;
+    --sxc-muted-light: #EEEEEE;
+    --sxc-border-light: #DEDEDE;
+    --sxc-surface-light: #FCFCFC;
+
+    /* Feedback colors, light theme. Source: design/shipxio-brand-colors.md */
+    --sxc-success: #2C8724;
+    --sxc-warning: #AB7500;
+
+    /* Triplets for the tinted surfaces built from the colors above. */
+    --sxc-primary-rgb: 42, 127, 255;
+    --sxc-success-rgb: 44, 135, 36;
+    --sxc-warning-rgb: 171, 117, 0;
+    --sxc-black-rgb: 0, 0, 0;
+    --sxc-white-rgb: 255, 255, 255;
+
+    --sxc-radius: 12px;
+
+    max-width: 900px;
+    margin-right: 20px;
+}
+
+/* ======================================================
+   Branded masthead
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-masthead {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 16px 0 24px;
+    padding: 22px 26px;
+    border-radius: var(--sxc-radius);
+    background:
+        radial-gradient(90% 180% at 100% 0%, rgba(var(--sxc-primary-rgb), 0.38) 0%, rgba(var(--sxc-primary-rgb), 0) 60%),
+        linear-gradient(135deg, var(--sxc-accent-b) 0%, var(--sxc-secondary) 100%);
+    box-shadow: 0 10px 28px rgba(var(--sxc-black-rgb), 0.24);
+}
+
+.shipxio-connect-admin .shipxio-connect-mark {
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 11px;
+    box-shadow: 0 4px 14px rgba(var(--sxc-black-rgb), 0.3);
+}
+
+.shipxio-connect-admin .shipxio-connect-masthead-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.shipxio-connect-admin .shipxio-connect-wordmark {
+    margin: 0;
+    color: var(--sxc-white);
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+}
+
+.shipxio-connect-admin .shipxio-connect-tagline {
+    margin: 3px 0 0;
+    color: rgba(var(--sxc-white-rgb), 0.72);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.shipxio-connect-admin .shipxio-connect-version {
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding: 3px 10px;
+    border: 1px solid rgba(var(--sxc-white-rgb), 0.22);
+    border-radius: 999px;
+    color: rgba(var(--sxc-white-rgb), 0.82);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.6;
+}
+
+/* ======================================================
+   Cards
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-card {
+    margin: 0 0 20px;
+    overflow: hidden;
+    border: 1px solid var(--sxc-border-light);
+    border-radius: var(--sxc-radius);
+    background: var(--sxc-white);
+    box-shadow: 0 1px 2px rgba(var(--sxc-black-rgb), 0.04), 0 8px 24px rgba(var(--sxc-black-rgb), 0.05);
+}
+
+.shipxio-connect-admin .shipxio-connect-card-head {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--sxc-border-light);
+    background: linear-gradient(180deg, var(--sxc-surface-light) 0%, var(--sxc-muted-light) 100%);
+}
+
+.shipxio-connect-admin .shipxio-connect-card-head h2 {
+    margin: 0;
+    padding: 0;
+    color: var(--sxc-accent-a);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.shipxio-connect-admin .shipxio-connect-card-head p {
+    max-width: 68ch;
+    margin: 4px 0 0;
+    color: var(--sxc-gray-dark);
+    font-size: 13px;
+    line-height: 1.55;
+}
+
+.shipxio-connect-admin .shipxio-connect-card-body {
+    padding: 6px 24px 20px;
+}
+
+/* ======================================================
+   Fields
+   ====================================================== */
+
+.shipxio-connect-admin .form-table {
+    margin: 0;
+}
+
+.shipxio-connect-admin .form-table th {
+    width: 210px;
+    padding: 20px 20px 20px 0;
+    color: var(--sxc-accent-a);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.shipxio-connect-admin .form-table td {
+    padding: 20px 0;
+}
+
+.shipxio-connect-admin .form-table tr + tr th,
+.shipxio-connect-admin .form-table tr + tr td {
+    border-top: 1px solid var(--sxc-border-light);
+}
+
+.shipxio-connect-admin .form-table input[type="url"],
+.shipxio-connect-admin .form-table input[type="password"],
+.shipxio-connect-admin .form-table input[type="number"],
+.shipxio-connect-admin .form-table input[type="text"] {
+    /* The border color stays as WordPress draws it, for contrast parity. */
+    min-height: 36px;
+    border-radius: 8px;
+}
+
+.shipxio-connect-admin .form-table input:focus {
+    border-color: var(--sxc-primary);
+    box-shadow: 0 0 0 3px rgba(var(--sxc-primary-rgb), 0.16);
+}
+
+.shipxio-connect-admin .form-table .description {
+    max-width: 66ch;
+    margin-top: 8px;
+    color: var(--sxc-gray-dark);
+    font-size: 12.5px;
+    font-style: normal;
+    line-height: 1.55;
+}
+
+.shipxio-connect-admin .form-table .description code {
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--sxc-muted-light);
+    font-size: 12px;
+}
+
+.shipxio-connect-admin .shipxio-connect-radius-control {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shipxio-connect-admin .shipxio-connect-unit {
+    color: var(--sxc-gray-dark);
+    font-size: 13px;
+}
+
+/* Match the core color picker to the rounded fields around it. */
+.shipxio-connect-admin .wp-color-result.button,
+.shipxio-connect-admin .wp-picker-input-wrap .button {
+    border-radius: 8px;
+}
+
+.shipxio-connect-admin .wp-picker-container .wp-color-picker {
+    border-radius: 8px;
+}
+/* ======================================================
+   Credential state
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-credential-state {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+    padding: 7px 12px;
+    border: 1px solid rgba(var(--sxc-success-rgb), 0.35);
+    border-radius: 999px;
+    background: rgba(var(--sxc-success-rgb), 0.08);
+    color: var(--sxc-accent-a);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.shipxio-connect-admin .shipxio-connect-credential-state.is-missing {
+    border-color: rgba(var(--sxc-warning-rgb), 0.35);
+    background: rgba(var(--sxc-warning-rgb), 0.08);
+}
+
+.shipxio-connect-admin .shipxio-connect-credential-state .dashicons {
+    width: 18px;
+    height: 18px;
+    color: var(--sxc-success);
+    font-size: 18px;
+}
+
+.shipxio-connect-admin .shipxio-connect-credential-state.is-missing .dashicons {
+    color: var(--sxc-warning);
+}
+
+/* Decorative mask (aria-hidden), de-emphasized with the brand light gray. */
+.shipxio-connect-admin .shipxio-connect-credential-mask {
+    color: var(--sxc-gray-light);
+    font-family: Consolas, Monaco, monospace;
+    letter-spacing: 2px;
+}
+
+/* ======================================================
+   Appearance preview
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-preview {
+    margin: 4px 0 0;
+    padding: 16px 18px;
+    border: 1px solid var(--sxc-border-light);
+    border-radius: 10px;
+    background: var(--sxc-surface-light);
+}
+
+.shipxio-connect-admin .shipxio-connect-preview-label {
+    display: block;
+    margin-bottom: 12px;
+    color: var(--sxc-gray-dark);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.shipxio-connect-admin .shipxio-connect-preview-stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.shipxio-connect-admin .shipxio-connect-preview-input {
+    width: 190px;
+    height: 36px;
+    border: 1px solid var(--shipxio-connect-preview-color, var(--sxc-primary));
+    border-radius: var(--shipxio-connect-preview-radius, 8px);
+    background: var(--sxc-white);
+    box-shadow: 0 0 0 3px rgba(var(--sxc-primary-rgb), 0.12);
+}
+
+.shipxio-connect-admin .shipxio-connect-preview-button {
+    padding: 9px 18px;
+    border-radius: var(--shipxio-connect-preview-radius, 8px);
+    background: var(--shipxio-connect-preview-color, var(--sxc-primary));
+    color: var(--sxc-white);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+.shipxio-connect-admin .shipxio-connect-preview .description {
+    margin: 12px 0 0;
+    color: var(--sxc-gray-dark);
+    font-size: 12px;
+}
+
+/* ======================================================
+   Save bar
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 24px;
+    padding: 16px 20px;
+    border: 1px solid var(--sxc-border-light);
+    border-radius: var(--sxc-radius);
+    background: var(--sxc-white);
+    box-shadow: 0 1px 2px rgba(var(--sxc-black-rgb), 0.04);
+}
+
+.shipxio-connect-admin .shipxio-connect-actions .button-primary {
+    min-height: 38px;
+    padding: 0 22px;
+    border-color: var(--sxc-primary);
+    border-radius: 8px;
+    background: var(--sxc-primary);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 36px;
+    box-shadow: 0 2px 8px rgba(var(--sxc-primary-rgb), 0.28);
+}
+
+.shipxio-connect-admin .shipxio-connect-actions .button-primary:hover,
+.shipxio-connect-admin .shipxio-connect-actions .button-primary:focus {
+    border-color: var(--sxc-secondary);
+    background: var(--sxc-secondary);
+}
+
+.shipxio-connect-admin .shipxio-connect-actions-note {
+    color: var(--sxc-gray-dark);
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+
+/* ======================================================
+   Shortcodes
+   ====================================================== */
+
+.shipxio-connect-admin .shipxio-connect-shortcodes {
+    margin: 12px 0 0;
+    padding: 0;
+    border: 1px solid var(--sxc-border-light);
+    border-radius: 10px;
+    list-style: none;
+    overflow: hidden;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--sxc-border-light);
+    background: var(--sxc-white);
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode:last-child {
+    border-bottom: 0;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode:hover {
+    background: rgba(var(--sxc-primary-rgb), 0.04);
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode-text {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode-text strong {
+    color: var(--sxc-accent-a);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode-text span {
+    color: var(--sxc-gray-dark);
+    font-size: 12.5px;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.shipxio-connect-admin .shipxio-connect-shortcode-action code {
+    padding: 5px 10px;
+    border: 1px solid var(--sxc-border-light);
+    border-radius: 7px;
+    background: var(--sxc-muted-light);
+    color: var(--sxc-secondary);
+    font-size: 12.5px;
+    white-space: nowrap;
+}
+
+.shipxio-connect-admin .shipxio-connect-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 7px;
+}
+
+.shipxio-connect-admin .shipxio-connect-copy .dashicons {
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+.shipxio-connect-admin .shipxio-connect-copy.is-copied {
+    border-color: rgba(var(--sxc-success-rgb), 0.35);
+    background: rgba(var(--sxc-success-rgb), 0.08);
+    color: var(--sxc-accent-a);
+}
+
+.shipxio-connect-admin .shipxio-connect-hint {
+    margin: 14px 0 0;
+    color: var(--sxc-gray-dark);
+    font-size: 12.5px;
+    line-height: 1.55;
+}
+
+/* ======================================================
+   Narrow screens
+   ====================================================== */
+
+@media (max-width: 782px) {
+    .shipxio-connect-admin {
+        margin-right: 12px;
+    }
+
+    .shipxio-connect-admin .shipxio-connect-masthead {
+        flex-wrap: wrap;
+        padding: 18px;
+    }
+
+    .shipxio-connect-admin .shipxio-connect-card-body {
+        padding: 4px 16px 16px;
+    }
+
+    .shipxio-connect-admin .form-table th {
+        width: auto;
+        padding: 16px 0 4px;
+    }
+
+    .shipxio-connect-admin .form-table td {
+        padding: 0 0 16px;
+    }
+
+    .shipxio-connect-admin .form-table tr + tr td {
+        border-top: 0;
+    }
+
+    .shipxio-connect-admin .shipxio-connect-shortcode-action {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
