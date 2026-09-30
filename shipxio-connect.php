@@ -3,7 +3,7 @@
 Plugin Name: Shipxio Connect
 Plugin URI: https://shipxio.com/shipxio-connect
 Description: Connects WordPress websites to Shipxio for shipping rates, shipping estimates, and HS Code suggestions.
-Version: 1.0.7
+Version: 1.0.8
 Requires at least: 6.3
 Requires PHP: 8.1
 Author: Shipxio
@@ -18,7 +18,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('SHIPXIO_CONNECT_VERSION', '1.0.7');
+define('SHIPXIO_CONNECT_VERSION', '1.0.8');
 define('SHIPXIO_CONNECT_FILE', __FILE__);
 
 // Appearance defaults, matching the design tokens the plugin ships with.
