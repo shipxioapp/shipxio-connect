@@ -55,7 +55,7 @@ function shipxio_connect_request($method, $path, $query = array(), $payload = nu
     }
 
     $data = json_decode($body, true);
-    if (! is_array($data) || array_is_list($data) || json_last_error() !== JSON_ERROR_NONE || shipxio_connect_contains_credential($data)) {
+    if (! is_array($data) || shipxio_connect_is_list($data) || json_last_error() !== JSON_ERROR_NONE || shipxio_connect_contains_credential($data)) {
         return shipxio_connect_response(array('message' => $failure_message), 502);
     }
 
@@ -72,6 +72,27 @@ function shipxio_connect_response($data, $status)
     $response = new WP_REST_Response($data, $status);
     $response->header('Cache-Control', 'no-store, private');
     return $response;
+}
+
+/**
+ * Whether a decoded JSON value came in as an array rather than an object.
+ *
+ * array_is_list() would say the same thing, but WordPress only polyfills it
+ * from 6.5 and this plugin supports 6.3, so the test is done here instead.
+ * The empty array, which json_decode() returns for both `{}` and `[]`, counts
+ * as a list, exactly as array_is_list() reports it.
+ */
+function shipxio_connect_is_list(array $value)
+{
+    $expected = 0;
+    foreach ($value as $key => $unused) {
+        if ($key !== $expected) {
+            return false;
+        }
+        $expected++;
+    }
+
+    return true;
 }
 
 function shipxio_connect_contains_credential($value)

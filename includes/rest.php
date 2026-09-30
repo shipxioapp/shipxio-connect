@@ -36,7 +36,7 @@ function shipxio_connect_rates()
 function shipxio_connect_estimate($request)
 {
     $input = $request->get_json_params();
-    if (! is_array($input) || array_is_list($input) || strlen($request->get_body()) > 16384) {
+    if (! is_array($input) || shipxio_connect_is_list($input) || strlen($request->get_body()) > 16384) {
         return shipxio_connect_response(array('message' => __('Invalid request.', 'shipxio-connect')), 400);
     }
 

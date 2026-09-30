@@ -26,14 +26,18 @@ function shipxio_connect_register_assets()
         'ratesUnavailable' => __('Shipping rates are not available right now.', 'shipxio-connect'),
         'shippingRate' => __('Shipping Rate', 'shipxio-connect'),
         'extraPound' => __('Each Extra lb', 'shipxio-connect'),
+        /* translators: %s: currency code the shipping rates are quoted in, such as JMD. */
         'ratesInCurrency' => __('Shipping rates in %s', 'shipxio-connect'),
         'suggestionsFailed' => __('Suggestions could not be loaded.', 'shipxio-connect'),
         'searching' => __('Searching…', 'shipxio-connect'),
         'noMatches' => __('No matching items found.', 'shipxio-connect'),
+        /* translators: %d: number of item type suggestions found, always 1 for this string. */
         'suggestionSingular' => __('%d item suggestion available.', 'shipxio-connect'),
+        /* translators: %d: number of item type suggestions found. */
         'suggestionPlural' => __('%d item suggestions available.', 'shipxio-connect'),
         'clearSelected' => __('Clear selected item type', 'shipxio-connect'),
         'clear' => __('Clear', 'shipxio-connect'),
+        /* translators: %s: name of the item type the visitor selected. */
         'selected' => __('%s selected.', 'shipxio-connect'),
         'calculating' => __('Calculating…', 'shipxio-connect'),
         'calculateEstimate' => __('Calculate Estimate', 'shipxio-connect'),
