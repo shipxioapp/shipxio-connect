@@ -1,11 +1,11 @@
 {
     "name": "Shipxio Connect",
     "slug": "shipxio-connect",
-    "version": "1.0.6",
-    "download_url": "https://github.com/shipxioapp/shipxio-connect/releases/download/v1.0.6/shipxio-connect.zip",
+    "version": "1.0.7",
+    "download_url": "https://github.com/shipxioapp/shipxio-connect/releases/download/v1.0.7/shipxio-connect.zip",
     "homepage": "https://shipxio.com/shipxio-connect",
     "requires": "6.3",
     "tested": "7.1",
     "requires_php": "8.1",
-    "last_updated": "2026-09-30T19:55:36Z"
+    "last_updated": "2026-09-30T21:03:17Z"
 }
