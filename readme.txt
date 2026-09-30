@@ -154,6 +154,9 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.8 =
+* Added the Shipxio Connect icon to the WordPress updates and plugin details screens, replacing the generic plugin placeholder.
+
 = 1.0.7 =
 * Documented the show_intro shortcode option on the Shipxio Connect settings screen.
 

@@ -37,6 +37,32 @@ function shipxio_connect_plugin_slug()
 }
 
 /**
+ * Icon metadata for the update and plugin details screens.
+ *
+ * Without it, Dashboard > Updates falls back to the generic grey plugin
+ * icon. The mark ships inside the plugin and is served from the install, so
+ * it needs no request to shipxio.com or GitHub and works on any domain.
+ *
+ * The file is 128x128, which is WordPress's 1x size. It is deliberately not
+ * offered as 2x as well: core prefers 2x when present and would scale a 1x
+ * image up. The default key is supplied because the details screen reads it
+ * as a last resort.
+ *
+ * @return array<string, string>
+ */
+function shipxio_connect_plugin_icons()
+{
+    // One definition of the mark, shared with the settings screen, so the
+    // file name cannot drift out of sync in two places.
+    $mark = shipxio_connect_mark_url();
+
+    return array(
+        '1x'      => $mark,
+        'default' => $mark,
+    );
+}
+
+/**
  * Whether WordPress is running an update check the administrator asked for.
  *
  * Dashboard > Updates, including its "Check again" button, runs the plugin
@@ -175,6 +201,7 @@ function shipxio_connect_check_for_update($update, $plugin_data, $plugin_file)
         'slug'    => shipxio_connect_plugin_slug(),
         'version' => $manifest['version'],
         'package' => $manifest['download_url'],
+        'icons'   => shipxio_connect_plugin_icons(),
     );
 
     foreach (array('requires', 'tested', 'requires_php') as $field) {
@@ -216,6 +243,7 @@ function shipxio_connect_plugin_information($result, $action, $args)
     $information = new stdClass();
     $information->name          = '' !== $headers['Name'] ? $headers['Name'] : 'Shipxio Connect';
     $information->slug          = shipxio_connect_plugin_slug();
+    $information->icons         = shipxio_connect_plugin_icons();
     $information->version       = null === $manifest ? SHIPXIO_CONNECT_VERSION : $manifest['version'];
     $information->author        = '' !== $headers['AuthorURI'] && '' !== $headers['Author']
         ? '<a href="' . esc_url($headers['AuthorURI']) . '">' . esc_html($headers['Author']) . '</a>'
