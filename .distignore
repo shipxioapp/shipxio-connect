@@ -1,0 +1,21 @@
+# Files that live in the repository but must never reach a customer install.
+# The repository root is the plugin root, so anything added here for
+# development or releasing would otherwise ship inside the plugin directory.
+#
+# This is the single source of truth for packaging; the release workflow
+# passes it to rsync when staging shipxio-connect/.
+
+.git
+.gitignore
+.gitattributes
+.github
+.distignore
+update.json
+.vscode
+.idea
+.editorconfig
+node_modules
+build
+*.zip
+.DS_Store
+Thumbs.db

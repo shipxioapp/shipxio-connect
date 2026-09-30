@@ -11,6 +11,7 @@ Author URI: https://shipxio.com
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: shipxio-connect
+Update URI: https://shipxio.com/shipxio-connect
 */
 
 if (! defined('ABSPATH')) {
@@ -30,6 +31,7 @@ require_once __DIR__ . '/includes/client.php';
 require_once __DIR__ . '/includes/rest.php';
 require_once __DIR__ . '/includes/settings.php';
 require_once __DIR__ . '/includes/frontend.php';
+require_once __DIR__ . '/includes/updater.php';
 
 add_action('rest_api_init', 'shipxio_connect_register_routes');
 add_action('admin_init', 'shipxio_connect_register_settings');
@@ -39,3 +41,7 @@ add_action('init', 'shipxio_connect_register_assets');
 add_shortcode('shipxio_connect', 'shipxio_connect_render_shortcode');
 add_shortcode('shipxio_connect_calculator', 'shipxio_connect_render_calculator_shortcode');
 add_shortcode('shipxio_connect_rates', 'shipxio_connect_render_rates_shortcode');
+
+// Updates come from the project's own releases, matching the Update URI host.
+add_filter('update_plugins_shipxio.com', 'shipxio_connect_check_for_update', 10, 3);
+add_filter('plugins_api', 'shipxio_connect_plugin_information', 10, 3);

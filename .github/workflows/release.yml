@@ -1,0 +1,330 @@
+name: Release
+
+# Tag pushes only. Ordinary development pushes to main must never publish a
+# customer update, and the metadata commit this workflow makes to main must
+# never start another run.
+on:
+  push:
+    tags:
+      - 'v*'
+
+# Needed to create the release, upload its asset, and commit update.json.
+# The built-in GITHUB_TOKEN covers all three; no personal access token.
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Derive the version and verify every version reference
+        id: version
+        run: |
+          set -euo pipefail
+
+          TAG="${GITHUB_REF_NAME}"
+          if ! printf '%s' "$TAG" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Tag '$TAG' is not of the form vX.Y.Z."
+            exit 1
+          fi
+          VERSION="${TAG#v}"
+
+          tr -d '\r' < shipxio-connect.php > /tmp/plugin.lf
+          tr -d '\r' < readme.txt > /tmp/readme.lf
+
+          HEADER=$(sed -n 's/^Version:[[:space:]]*\(.*\)$/\1/p' /tmp/plugin.lf | head -1)
+          CONSTANT=$(sed -n "s/^define('SHIPXIO_CONNECT_VERSION', '\([^']*\)');.*/\1/p" /tmp/plugin.lf | head -1)
+          STABLE=$(sed -n 's/^Stable tag:[[:space:]]*\(.*\)$/\1/p' /tmp/readme.lf | head -1)
+          REQUIRES=$(sed -n 's/^Requires at least:[[:space:]]*\(.*\)$/\1/p' /tmp/readme.lf | head -1)
+          TESTED=$(sed -n 's/^Tested up to:[[:space:]]*\(.*\)$/\1/p' /tmp/readme.lf | head -1)
+          REQUIRES_PHP=$(sed -n 's/^Requires PHP:[[:space:]]*\(.*\)$/\1/p' /tmp/readme.lf | head -1)
+
+          echo "tag=$TAG          header=$HEADER"
+          echo "constant=$CONSTANT  stable tag=$STABLE"
+          echo "requires=$REQUIRES tested=$TESTED requires_php=$REQUIRES_PHP"
+
+          FAILED=0
+          [ "$HEADER"   = "$VERSION" ] || { echo "::error::Plugin header Version is '$HEADER', expected '$VERSION'."; FAILED=1; }
+          [ "$CONSTANT" = "$VERSION" ] || { echo "::error::SHIPXIO_CONNECT_VERSION is '$CONSTANT', expected '$VERSION'."; FAILED=1; }
+          [ "$STABLE"   = "$VERSION" ] || { echo "::error::readme.txt Stable tag is '$STABLE', expected '$VERSION'."; FAILED=1; }
+          [ -n "$REQUIRES" ] && [ -n "$TESTED" ] && [ -n "$REQUIRES_PHP" ] || { echo "::error::readme.txt is missing a Requires/Tested/Requires PHP header."; FAILED=1; }
+
+          if ! grep -qxF "= $VERSION =" /tmp/readme.lf; then
+            echo "::error::readme.txt has no '= $VERSION =' changelog section. Add it before tagging."
+            FAILED=1
+          fi
+          [ "$FAILED" -eq 0 ] || exit 1
+
+          awk -v want="= $VERSION =" '
+            $0 == want { inside = 1; next }
+            inside && /^= [0-9]+\.[0-9]+\.[0-9]+ =$/ { exit }
+            inside { print }
+          ' /tmp/readme.lf | sed '/./,$!d' > /tmp/notes.md
+
+          if [ ! -s /tmp/notes.md ]; then
+            echo "::error::The '= $VERSION =' changelog section is empty."
+            exit 1
+          fi
+          echo "--- release notes ---"; cat /tmp/notes.md
+
+          {
+            echo "tag=$TAG"
+            echo "version=$VERSION"
+            echo "requires=$REQUIRES"
+            echo "tested=$TESTED"
+            echo "requires_php=$REQUIRES_PHP"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Validate the plugin source
+        run: |
+          set -euo pipefail
+          php -v | head -1
+
+          echo "--- php -l ---"
+          find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l
+
+          echo "--- required files ---"
+          MISSING=0
+          for FILE in \
+            shipxio-connect.php readme.txt LICENSE .distignore update.json \
+            includes/client.php includes/rest.php includes/settings.php \
+            includes/frontend.php includes/updater.php \
+            templates/widget.php templates/calculator.php templates/rates.php \
+            assets/css/var.css assets/css/app.css assets/css/admin.css \
+            assets/js/app.js assets/js/admin.js
+          do
+            if [ -f "$FILE" ]; then echo "  ok   $FILE"; else echo "::error::Missing required file $FILE"; MISSING=1; fi
+          done
+          [ "$MISSING" -eq 0 ] || exit 1
+
+          # Every assets/... path the PHP references must exist, so a half
+          # finished asset swap cannot ship a broken reference.
+          echo "--- referenced assets ---"
+          grep -rhoE "'assets/[A-Za-z0-9_./-]+'" includes/ templates/ | tr -d "'" | sort -u > /tmp/referenced.txt
+          while read -r ASSET; do
+            if [ -f "$ASSET" ]; then echo "  ok   $ASSET"; else echo "::error::PHP references $ASSET, which is not in the repository."; MISSING=1; fi
+          done < /tmp/referenced.txt
+          [ "$MISSING" -eq 0 ] || exit 1
+
+          # The Website Integration credential must never be committed.
+          if grep -rniE 'sxw_[a-f0-9]{8}' --exclude-dir=.git .; then
+            echo "::error::A Website Integration credential appears in the source."
+            exit 1
+          fi
+          echo "no credential found in source"
+
+      - name: Build the distributable ZIP
+        run: |
+          set -euo pipefail
+
+          # The repository root is the plugin root, so the contents are staged
+          # into a shipxio-connect/ directory first. WordPress needs exactly
+          # that folder name for "Update now" to upgrade the install in place
+          # instead of creating a second plugin directory.
+          rm -rf build shipxio-connect.zip
+          mkdir -p build/shipxio-connect
+          rsync -a --exclude-from=.distignore ./ build/shipxio-connect/
+
+          ( cd build && zip -rqX ../shipxio-connect.zip shipxio-connect )
+          ls -l shipxio-connect.zip
+
+      - name: Verify the built ZIP
+        run: |
+          set -euo pipefail
+          FAILED=0
+
+          echo "--- contents ---"
+          unzip -Z1 shipxio-connect.zip | sort | sed 's/^/  /'
+
+          ROOTS=$(unzip -Z1 shipxio-connect.zip | awk -F/ '{print $1}' | sort -u)
+          if [ "$ROOTS" != "shipxio-connect" ]; then
+            echo "::error::Expected a single top-level shipxio-connect/ directory, found: $ROOTS"
+            FAILED=1
+          fi
+
+          unzip -Z1 shipxio-connect.zip | grep -qx 'shipxio-connect/shipxio-connect.php' \
+            || { echo "::error::shipxio-connect/shipxio-connect.php is missing from the ZIP."; FAILED=1; }
+          unzip -Z1 shipxio-connect.zip | grep -qx 'shipxio-connect/includes/updater.php' \
+            || { echo "::error::The updater is missing from the ZIP."; FAILED=1; }
+
+          PACKAGED=$(unzip -p shipxio-connect.zip shipxio-connect/shipxio-connect.php | tr -d '\r' | sed -n 's/^Version:[[:space:]]*\(.*\)$/\1/p' | head -1)
+          if [ "$PACKAGED" != "${{ steps.version.outputs.version }}" ]; then
+            echo "::error::Packaged version is '$PACKAGED', expected '${{ steps.version.outputs.version }}'."
+            FAILED=1
+          fi
+
+          if unzip -Z1 shipxio-connect.zip | grep -E '(^|/)(\.git|\.github|\.distignore|update\.json|\.vscode|node_modules|build)(/|$)'; then
+            echo "::error::The ZIP contains development or release-only files."
+            FAILED=1
+          fi
+
+          [ "$FAILED" -eq 0 ] || exit 1
+          echo "ZIP verified"
+
+      # Release immutability is enabled, so a published release can never have
+      # its assets replaced. The release is created as a draft, verified, and
+      # only then published. Re-running the same tag must also be safe: a later
+      # step can fail after the release is already live, and the only way to
+      # recover is to run the workflow again.
+      - name: Inspect any existing release for this tag
+        id: release_state
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
+
+          STATE=absent
+          HAS_ZIP=false
+
+          if gh release view "$TAG" --json isDraft,tagName,assets > /tmp/release.json 2>/dev/null; then
+            TAG_NAME=$(jq -r '.tagName' /tmp/release.json)
+            IS_DRAFT=$(jq -r '.isDraft' /tmp/release.json)
+            HAS_ZIP=$(jq -r '[.assets[].name] | index("shipxio-connect.zip") != null' /tmp/release.json)
+
+            if [ "$TAG_NAME" != "$TAG" ]; then
+              echo "::error::Release lookup for $TAG returned tag '$TAG_NAME'."
+              exit 1
+            fi
+            if [ "$IS_DRAFT" = "true" ]; then STATE=draft; else STATE=published; fi
+          fi
+
+          echo "state=$STATE has_zip=$HAS_ZIP"
+
+          # A published release is immutable. Without the asset it can never be
+          # repaired, so the only correct answer is a new version.
+          if [ "$STATE" = "published" ] && [ "$HAS_ZIP" != "true" ]; then
+            echo "::error::Release $TAG is already published but has no shipxio-connect.zip asset. An immutable release cannot be repaired; cut a new version."
+            exit 1
+          fi
+
+          {
+            echo "state=$STATE"
+            echo "has_zip=$HAS_ZIP"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create the draft release
+        if: steps.release_state.outputs.state == 'absent'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
+
+          gh release create "$TAG" \
+            --draft \
+            --title "Shipxio Connect ${{ steps.version.outputs.version }}" \
+            --notes-file /tmp/notes.md \
+            --target "$GITHUB_SHA"
+          echo "draft created for $TAG"
+
+      # Drafts are mutable, so resuming one may re-upload a partial asset.
+      - name: Upload the release asset
+        if: steps.release_state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
+
+          gh release upload "$TAG" shipxio-connect.zip --clobber
+
+          gh release view "$TAG" --json assets --jq '.assets[].name' | grep -qx 'shipxio-connect.zip' \
+            || { echo "::error::shipxio-connect.zip was not attached to the draft."; exit 1; }
+          echo "asset attached to the draft"
+
+      - name: Publish the release
+        if: steps.release_state.outputs.state != 'published'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.version.outputs.tag }}"
+
+          gh release edit "$TAG" --draft=false --latest
+
+          gh release view "$TAG" --json isDraft --jq '.isDraft' | grep -qx 'false' \
+            || { echo "::error::Release $TAG is still a draft."; exit 1; }
+          echo "published $TAG"
+
+      - name: Reuse the already published release
+        if: steps.release_state.outputs.state == 'published'
+        run: |
+          echo "Release ${{ steps.version.outputs.tag }} is already published with shipxio-connect.zip attached."
+          echo "Leaving the immutable release untouched and continuing to the metadata step."
+
+      # Runs whether the release was just published or was already live, so a
+      # failure here is fixed simply by re-running the workflow for this tag.
+      - name: Publish the updater metadata to main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.version }}"
+          TAG="${{ steps.version.outputs.tag }}"
+          DOWNLOAD="https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG}/shipxio-connect.zip"
+
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+          for ATTEMPT in 1 2 3; do
+            echo "--- metadata attempt $ATTEMPT ---"
+            git fetch origin main
+            git checkout -B main origin/main
+
+            # Already correct is the expected state on a re-run, and the
+            # timestamp is left alone so a retry is a true no-op.
+            CURRENT_VERSION=$(jq -r '.version' update.json)
+            CURRENT_DOWNLOAD=$(jq -r '.download_url' update.json)
+            if [ "$CURRENT_VERSION" = "$VERSION" ] && [ "$CURRENT_DOWNLOAD" = "$DOWNLOAD" ]; then
+              echo "update.json already points at $VERSION; nothing to do."
+              exit 0
+            fi
+
+            jq --indent 4 \
+              --arg version "$VERSION" \
+              --arg download_url "$DOWNLOAD" \
+              --arg homepage 'https://shipxio.com/shipxio-connect' \
+              --arg requires '${{ steps.version.outputs.requires }}' \
+              --arg tested '${{ steps.version.outputs.tested }}' \
+              --arg requires_php '${{ steps.version.outputs.requires_php }}' \
+              --arg last_updated "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+              '.version = $version
+               | .download_url = $download_url
+               | .homepage = $homepage
+               | .requires = $requires
+               | .tested = $tested
+               | .requires_php = $requires_php
+               | .last_updated = $last_updated' \
+              update.json > /tmp/update.json
+
+            mv /tmp/update.json update.json
+            cat update.json
+
+            git add update.json
+            git commit -m "Update plugin metadata for $VERSION"
+
+            if git push origin main; then
+              echo "metadata published"
+              exit 0
+            fi
+
+            # The commit left the tree clean, so the next attempt's
+            # checkout -B simply resets onto the new origin/main.
+            echo "Push rejected, most likely by a concurrent commit to main. Retrying."
+          done
+
+          echo "::error::Could not publish update.json to main after 3 attempts. The release $TAG is published and intact; re-run this workflow for the same tag to retry the metadata only."
+          exit 1
