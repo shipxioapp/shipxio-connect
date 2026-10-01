@@ -49,3 +49,4 @@ add_shortcode('shipxio_connect_rates', 'shipxio_connect_render_rates_shortcode')
 // Updates come from the project's own releases, matching the Update URI host.
 add_filter('update_plugins_shipxio.com', 'shipxio_connect_check_for_update', 10, 3);
 add_filter('plugins_api', 'shipxio_connect_plugin_information', 10, 3);
+

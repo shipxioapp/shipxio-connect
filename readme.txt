@@ -154,6 +154,9 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.10 =
+* Maintenance and improvements.
+
 = 1.0.9 =
 * Larger, more comfortable calculate button.
 * Added a button padding setting under Appearance.
