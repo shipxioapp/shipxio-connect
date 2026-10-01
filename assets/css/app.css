@@ -138,9 +138,9 @@
 }
 
 .shipxio-connect .field label {
-    color: var(--sxc-clr-acc-a);
+    color: var(--sxc-clr-gray-d);
     font-size: var(--sxc-fs-xs);
-    font-weight: var(--sxc-fw-sb);
+    font-weight: var(--sxc-fw-md);
     line-height: var(--sxc-lh-xs);
 }
 
@@ -151,16 +151,41 @@
     line-height: var(--sxc-lh-xxs);
 }
 
+/* Decorative icons share the input surface without intercepting clicks. */
+.shipxio-connect .calculator-form .input-surface {
+    position: relative;
+}
+
+.shipxio-connect .calculator-form .control-icon {
+    position: absolute;
+    top: 50%;
+    left: var(--sxc-pad-md);
+    width: var(--sxc-pad-lg);
+    height: var(--sxc-pad-lg);
+    color: var(--sxc-clr-gray-l);
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: color 160ms ease;
+}
+
+.shipxio-connect .calculator-form .input-surface:focus-within .control-icon {
+    color: var(--sxc-clr-gray-d);
+}
+
+.shipxio-connect .calculator-form .input-surface input {
+    padding-left: calc(var(--sxc-pad-lg) + var(--sxc-pad-md) * 2);
+}
+
 .shipxio-connect .field input,
 .shipxio-connect .field select {
     width: 100%;
-    min-height: 48px;
-    padding: 0 var(--sxc-pad-lg);
+    min-height: 52px;
+    padding: var(--sxc-pad-md) var(--sxc-pad-lg);
     border: 1px solid var(--sxc-brd-l);
     border-radius: var(--sxc-brd-sm);
     background: var(--sxc-clr-wh);
     color: var(--sxc-clr-acc-a);
-    font-size: var(--sxc-fs-sm);
+    font-size: var(--sxc-fs-xs);
     outline: none;
     transition:
         border-color 160ms ease,
@@ -198,8 +223,8 @@
 
 .shipxio-connect .field input:focus,
 .shipxio-connect .field select:focus {
-    border-color: var(--sxc-clr-pri);
-    box-shadow: 0 0 0 3px rgba(var(--sxc-clr-pri-rgb), 0.14);
+    border-color: var(--sxc-clr-gray-l);
+    box-shadow: 0 0 0 3px rgba(var(--sxc-clr-blk-rgb), 0.12);
 }
 
 .shipxio-connect button:focus-visible,
@@ -631,14 +656,12 @@
    ====================================================== */
 
 /**
- * A data surface rather than a boxed HTML table: no outer frame, no cell
- * borders, and rows that read as a light band sitting on a subtler
- * surface. Separation comes from that contrast and a hairline, which is
- * drawn with an inset shadow so it adds no layout height and can never
- * produce a vertical rule.
+ * A clean, flat data surface with no outer frame or vertical cell borders.
+ * Only subtle horizontal rules separate the header and body rows.
  */
 .shipxio-connect .rates-table-wrapper {
     overflow-x: auto;
+    border: 0;
     border-radius: var(--sxc-brd-md);
     background: var(--sxc-surface-l);
 }
@@ -646,13 +669,15 @@
 /* Separate borders keep the rounded surface clipping the rows cleanly. */
 .shipxio-connect .rates-table {
     width: 100%;
+    border: 0;
     border-collapse: separate;
     border-spacing: 0;
 }
 
 .shipxio-connect .rates-table th,
 .shipxio-connect .rates-table td {
-    padding: var(--sxc-pad-sm) var(--sxc-pad-lg);
+    padding: var(--sxc-pad-md) var(--sxc-pad-lg);
+    border: 0;
     text-align: left;
     white-space: nowrap;
 }
@@ -665,42 +690,32 @@
     padding-top: var(--sxc-pad-md);
     padding-bottom: var(--sxc-pad-md);
     background: var(--sxc-surface-l);
-    box-shadow: inset 0 -1px 0 rgba(var(--sxc-clr-blk-rgb), 0.06);
+    border-bottom: 1px solid var(--sxc-brd-l);
     color: var(--sxc-clr-gray-d);
     font-size: var(--sxc-fs-xxs);
     font-weight: var(--sxc-fw-sb);
     line-height: var(--sxc-lh-xxs);
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: normal;
+    text-transform: none;
 }
 
 .shipxio-connect .rates-table td {
     background: var(--sxc-clr-wh);
-    box-shadow: inset 0 1px 0 rgba(var(--sxc-clr-blk-rgb), 0.04);
     color: var(--sxc-clr-acc-a);
     font-size: var(--sxc-fs-xs);
-    font-weight: var(--sxc-fw-md);
+    font-weight: var(--sxc-fw-sb);
     line-height: var(--sxc-lh-xs);
     font-variant-numeric: tabular-nums;
     transition: background 120ms ease;
 }
 
-/* The band starts flush against the header. */
-.shipxio-connect .rates-table tbody tr:first-child td {
-    box-shadow: none;
-}
-
-/* The weight column reads as the row label; the amounts keep the weight. */
-.shipxio-connect .rates-table td:first-child {
-    color: var(--sxc-clr-gray-d);
-}
-
-.shipxio-connect .rates-table td:not(:first-child) {
-    font-weight: var(--sxc-fw-sb);
+/* The first body row sits flush against the header's horizontal rule. */
+.shipxio-connect .rates-table tbody tr + tr td {
+    border-top: 1px solid var(--sxc-clr-muted-l);
 }
 
 .shipxio-connect .rates-table tbody tr:hover td {
-    background: rgba(var(--sxc-clr-pri-rgb), 0.045);
+    background: var(--sxc-surface-l);
 }
 
 .shipxio-connect .rates-table th:not(:first-child),
@@ -801,8 +816,8 @@
     }
 
     .shipxio-connect .rates-table th,
-.shipxio-connect .rates-table td {
-        padding: var(--sxc-pad-sm) var(--sxc-pad-md);
+    .shipxio-connect .rates-table td {
+        padding: var(--sxc-pad-md) var(--sxc-pad-md);
     }
 
     .shipxio-connect .rates-table th {
