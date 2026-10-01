@@ -42,10 +42,10 @@
     max-width: 100%;
     margin: 0;
     background: transparent;
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-body);
-    font-weight: var(--mpx-fw-n);
-    line-height: var(--mpx-lh-body);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-body);
+    font-weight: var(--sxc-fw-n);
+    line-height: var(--sxc-lh-body);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
@@ -80,12 +80,12 @@
    ====================================================== */
 
 .shipxio-connect .section {
-    margin-bottom: var(--mpx-pad-xl);
-    padding: var(--mpx-pad-xxl);
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-lg);
-    background: var(--mpx-clr-wh);
-    box-shadow: 0 2px 10px rgba(var(--mpx-clr-blk-rgb), 0.035);
+    margin-bottom: var(--sxc-pad-xl);
+    padding: var(--sxc-pad-xxl);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-lg);
+    background: var(--sxc-clr-wh);
+    box-shadow: 0 2px 10px rgba(var(--sxc-clr-blk-rgb), 0.035);
 }
 
 .shipxio-connect .section:last-child {
@@ -93,24 +93,24 @@
 }
 
 .shipxio-connect .section-header {
-    margin-bottom: var(--mpx-pad-xl);
+    margin-bottom: var(--sxc-pad-xl);
 }
 
 .shipxio-connect .section-header h2 {
     margin: 0;
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-headline);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-headline);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-headline);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-headline);
     letter-spacing: -0.015em;
 }
 
 .shipxio-connect .section-header p,
 .shipxio-connect .estimate-section-heading p {
     margin: 0.25rem 0 0;
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xs);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xs);
+    line-height: var(--sxc-lh-xs);
 }
 
 /* ======================================================
@@ -120,13 +120,13 @@
 .shipxio-connect .calculator-form {
     display: flex;
     flex-direction: column;
-    gap: var(--mpx-pad-lg);
+    gap: var(--sxc-pad-lg);
 }
 
 .shipxio-connect .form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--mpx-pad-lg);
+    gap: var(--sxc-pad-lg);
 }
 
 .shipxio-connect .field {
@@ -134,31 +134,33 @@
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: var(--mpx-pad-sm);
+    gap: var(--sxc-pad-sm);
 }
 
 .shipxio-connect .field label {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-sb);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-sb);
+    line-height: var(--sxc-lh-xs);
 }
 
 .shipxio-connect .field-help {
     margin: -0.25rem 0 0;
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
-.shipxio-connect .field input {
+.shipxio-connect .field input,
+.shipxio-connect .field select {
     width: 100%;
-    min-height: 46px;
-    padding: 0 var(--mpx-pad-md);
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-sm);
-    background: var(--mpx-clr-wh);
-    color: var(--mpx-clr-acc-a);
+    min-height: 48px;
+    padding: 0 var(--sxc-pad-lg);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-sm);
+    background: var(--sxc-clr-wh);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-sm);
     outline: none;
     transition:
         border-color 160ms ease,
@@ -166,35 +168,56 @@
         background 160ms ease;
 }
 
+/* Spinners crowd the value. Typing and validation are unchanged. */
+.shipxio-connect .field input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.shipxio-connect .field input[type="number"]::-webkit-outer-spin-button,
+.shipxio-connect .field input[type="number"]::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+}
+
+.shipxio-connect .field input:disabled,
+.shipxio-connect .field select:disabled {
+    background: var(--sxc-surface-l);
+    color: var(--sxc-clr-disabled-l);
+    cursor: not-allowed;
+}
+
 .shipxio-connect .field input::placeholder {
-    color: var(--mpx-clr-gray-l);
+    color: var(--sxc-clr-gray-l);
+    opacity: 1;
 }
 
-.shipxio-connect .field input:hover {
-    border-color: var(--mpx-clr-gray-l);
+.shipxio-connect .field input:hover:not(:disabled),
+.shipxio-connect .field select:hover:not(:disabled) {
+    border-color: var(--sxc-clr-gray-l);
 }
 
-.shipxio-connect .field input:focus {
-    border-color: var(--mpx-clr-pri);
-    box-shadow: 0 0 0 3px rgba(var(--mpx-clr-pri-rgb), 0.1);
+.shipxio-connect .field input:focus,
+.shipxio-connect .field select:focus {
+    border-color: var(--sxc-clr-pri);
+    box-shadow: 0 0 0 3px rgba(var(--sxc-clr-pri-rgb), 0.14);
 }
 
 .shipxio-connect button:focus-visible,
 .shipxio-connect .estimate-result:focus-visible {
-    outline: 2px solid var(--mpx-clr-pri);
+    outline: 2px solid var(--sxc-clr-pri);
     outline-offset: 2px;
 }
 
 .shipxio-connect .calculator-form>button {
     align-self: flex-start;
-    min-height: 44px;
-    padding: var(--mpx-btn-pad-sm);
-    border: 1px solid var(--mpx-clr-pri);
-    border-radius: var(--mpx-brd-sm);
-    background: var(--mpx-clr-pri);
-    color: var(--mpx-clr-wh);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-sb);
+    min-height: 46px;
+    padding: var(--sxc-btn-pad);
+    border: 1px solid var(--sxc-clr-pri);
+    border-radius: var(--sxc-brd-sm);
+    background: var(--sxc-clr-pri);
+    color: var(--sxc-clr-btn-text);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-sb);
     line-height: 1;
     cursor: pointer;
     transition:
@@ -205,8 +228,8 @@
 }
 
 .shipxio-connect .calculator-form>button:hover:not(:disabled) {
-    border-color: var(--mpx-clr-sec);
-    background: var(--mpx-clr-sec);
+    border-color: var(--sxc-clr-sec);
+    background: var(--sxc-clr-sec);
 }
 
 .shipxio-connect .calculator-form>button:active:not(:disabled) {
@@ -214,8 +237,9 @@
 }
 
 .shipxio-connect .calculator-form>button:disabled {
-    border-color: var(--mpx-clr-disabled-l);
-    background: var(--mpx-clr-disabled-l);
+    border-color: var(--sxc-clr-disabled-l);
+    background: var(--sxc-clr-disabled-l);
+    color: var(--sxc-clr-btn-text);
     cursor: wait;
     opacity: 0.7;
 }
@@ -232,10 +256,10 @@
     left: 0;
     overflow-y: auto;
     max-height: 320px;
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-md);
-    background: var(--mpx-clr-wh);
-    box-shadow: var(--mpx-shd-hv-md);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-md);
+    background: var(--sxc-clr-wh);
+    box-shadow: var(--sxc-shd-hv-md);
 }
 
 .shipxio-connect .suggestion {
@@ -243,11 +267,11 @@
     width: 100%;
     flex-direction: column;
     gap: 0.125rem;
-    padding: var(--mpx-pad-md);
+    padding: var(--sxc-pad-md);
     border: 0;
-    border-bottom: 1px solid var(--mpx-clr-muted-l);
-    background: var(--mpx-clr-wh);
-    color: var(--mpx-clr-acc-a);
+    border-bottom: 1px solid var(--sxc-clr-muted-l);
+    background: var(--sxc-clr-wh);
+    color: var(--sxc-clr-acc-a);
     text-align: left;
     cursor: pointer;
     transition: background 120ms ease;
@@ -259,32 +283,32 @@
 
 .shipxio-connect .suggestion:hover,
 .shipxio-connect .suggestion.is-active {
-    background: rgba(var(--mpx-clr-pri-rgb), 0.05);
+    background: rgba(var(--sxc-clr-pri-rgb), 0.05);
 }
 
 .shipxio-connect .suggestion.is-active {
-    box-shadow: inset 3px 0 0 var(--mpx-clr-pri);
+    box-shadow: inset 3px 0 0 var(--sxc-clr-pri);
     outline: none;
 }
 
 .shipxio-connect .suggestion strong {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-sb);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-sb);
+    line-height: var(--sxc-lh-xs);
 }
 
 .shipxio-connect .suggestion span {
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .suggestions-empty {
-    padding: var(--mpx-pad-md);
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xs);
-    line-height: var(--mpx-lh-xs);
+    padding: var(--sxc-pad-md);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xs);
+    line-height: var(--sxc-lh-xs);
 }
 
 /* ======================================================
@@ -295,11 +319,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--mpx-pad-md);
-    padding: var(--mpx-pad-md);
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-sm);
-    background: var(--mpx-surface-l);
+    gap: var(--sxc-pad-md);
+    padding: var(--sxc-pad-md);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-sm);
+    background: var(--sxc-surface-l);
 }
 
 .shipxio-connect .selected-item-text {
@@ -311,30 +335,30 @@
 }
 
 .shipxio-connect .selected-item strong {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-sb);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-sb);
+    line-height: var(--sxc-lh-xs);
     overflow-wrap: anywhere;
 }
 
 .shipxio-connect .selected-item span {
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
     overflow-wrap: anywhere;
 }
 
 .shipxio-connect .selected-item-clear {
     flex-shrink: 0;
     min-height: 32px;
-    padding: 0 var(--mpx-pad-md);
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-sm);
-    background: var(--mpx-clr-wh);
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    font-weight: var(--mpx-fw-sb);
+    padding: 0 var(--sxc-pad-md);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-sm);
+    background: var(--sxc-clr-wh);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    font-weight: var(--sxc-fw-sb);
     cursor: pointer;
     transition:
         border-color 120ms ease,
@@ -343,9 +367,9 @@
 }
 
 .shipxio-connect .selected-item-clear:hover {
-    border-color: var(--mpx-clr-pri);
-    background: rgba(var(--mpx-clr-pri-rgb), 0.04);
-    color: var(--mpx-clr-pri);
+    border-color: var(--sxc-clr-pri);
+    background: rgba(var(--sxc-clr-pri-rgb), 0.04);
+    color: var(--sxc-clr-pri);
 }
 
 /* ======================================================
@@ -353,14 +377,14 @@
    ====================================================== */
 
 .shipxio-connect .status {
-    margin: var(--mpx-pad-lg) 0 0;
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xs);
-    line-height: var(--mpx-lh-xs);
+    margin: var(--sxc-pad-lg) 0 0;
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xs);
+    line-height: var(--sxc-lh-xs);
 }
 
 .shipxio-connect .status-error {
-    color: var(--mpx-clr-err-l);
+    color: var(--sxc-clr-err-l);
 }
 
 /* ======================================================
@@ -369,9 +393,9 @@
 
 .shipxio-connect .estimate-result {
     display: flex;
-    margin-top: var(--mpx-pad-xxl);
+    margin-top: var(--sxc-pad-xxl);
     flex-direction: column;
-    gap: var(--mpx-pad-xxl);
+    gap: var(--sxc-pad-xxl);
     outline: none;
 }
 
@@ -380,15 +404,15 @@
 }
 
 .shipxio-connect .estimate-section-heading {
-    margin-bottom: var(--mpx-pad-md);
+    margin-bottom: var(--sxc-pad-md);
 }
 
 .shipxio-connect .estimate-section-heading h3 {
     margin: 0;
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-sm);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-sm);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-sm);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-sm);
 }
 
 /* ======================================================
@@ -398,9 +422,9 @@
 .shipxio-connect .estimate-card {
     overflow: hidden;
     padding: 0;
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-md);
-    background: var(--mpx-clr-wh);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-md);
+    background: var(--sxc-clr-wh);
 }
 
 /* Package details */
@@ -417,15 +441,15 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.125rem;
-    padding: var(--mpx-pad-lg);
+    padding: var(--sxc-pad-lg);
 }
 
 .shipxio-connect .estimate-grid>div:nth-child(odd):not(:last-child) {
-    border-right: 1px solid var(--mpx-clr-muted-l);
+    border-right: 1px solid var(--sxc-clr-muted-l);
 }
 
 .shipxio-connect .estimate-grid>div:nth-child(n + 3) {
-    border-top: 1px solid var(--mpx-clr-muted-l);
+    border-top: 1px solid var(--sxc-clr-muted-l);
 }
 
 .shipxio-connect .estimate-grid>div:last-child:nth-child(odd) {
@@ -434,16 +458,16 @@
 }
 
 .shipxio-connect .estimate-grid span {
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .estimate-grid strong {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-xs);
 }
 
 /* ======================================================
@@ -456,39 +480,39 @@
     flex-direction: column;
     justify-content: center;
     gap: 0.125rem;
-    padding: var(--mpx-pad-lg);
+    padding: var(--sxc-pad-lg);
 }
 
 .shipxio-connect .classification-heading strong {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-sm);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-sm);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-sm);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-sm);
 }
 
 .shipxio-connect .classification-heading span {
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .estimate-grid-two {
-    margin: 0 var(--mpx-pad-lg);
-    border-top: 1px solid var(--mpx-brd-l);
+    margin: 0 var(--sxc-pad-lg);
+    border-top: 1px solid var(--sxc-brd-l);
 }
 
 .shipxio-connect .estimate-grid-two>div {
     min-height: 70px;
-    padding: var(--mpx-pad-lg) 0;
+    padding: var(--sxc-pad-lg) 0;
 }
 
 .shipxio-connect .estimate-grid-two>div:first-child {
-    padding-right: var(--mpx-pad-lg);
+    padding-right: var(--sxc-pad-lg);
     border-right: 0;
 }
 
 .shipxio-connect .estimate-grid-two>div:last-child {
-    padding-left: var(--mpx-pad-lg);
+    padding-left: var(--sxc-pad-lg);
 }
 
 .shipxio-connect .estimate-grid-two>div:nth-child(n + 3) {
@@ -504,9 +528,9 @@
     min-height: 56px;
     align-items: center;
     justify-content: space-between;
-    gap: var(--mpx-pad-xl);
-    padding: var(--mpx-pad-md) var(--mpx-pad-lg);
-    border-bottom: 1px solid var(--mpx-clr-muted-l);
+    gap: var(--sxc-pad-xl);
+    padding: var(--sxc-pad-md) var(--sxc-pad-lg);
+    border-bottom: 1px solid var(--sxc-clr-muted-l);
 }
 
 .shipxio-connect .estimate-row>div {
@@ -517,25 +541,25 @@
 }
 
 .shipxio-connect .estimate-row span {
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-md);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-md);
+    line-height: var(--sxc-lh-xs);
     overflow-wrap: anywhere;
 }
 
 .shipxio-connect .estimate-row small {
-    color: var(--mpx-clr-gray-l);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    color: var(--sxc-clr-gray-l);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .estimate-row strong {
     flex-shrink: 0;
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-xs);
 }
 
 /* Amounts must never wrap away from their label. */
@@ -553,26 +577,26 @@
     min-height: 72px;
     align-items: center;
     justify-content: space-between;
-    gap: var(--mpx-pad-xl);
-    margin: var(--mpx-pad-sm);
-    padding: var(--mpx-pad-lg);
-    border: 1px solid rgba(var(--mpx-clr-pri-rgb), 0.18);
-    border-radius: var(--mpx-brd-sm);
-    background: rgba(var(--mpx-clr-pri-rgb), 0.055);
+    gap: var(--sxc-pad-xl);
+    margin: var(--sxc-pad-sm);
+    padding: var(--sxc-pad-lg);
+    border: 1px solid rgba(var(--sxc-clr-pri-rgb), 0.18);
+    border-radius: var(--sxc-brd-sm);
+    background: rgba(var(--sxc-clr-pri-rgb), 0.055);
 }
 
 .shipxio-connect .estimate-total span {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-xs);
 }
 
 .shipxio-connect .estimate-total strong {
-    color: var(--mpx-clr-pri);
-    font-size: var(--mpx-fs-h5);
-    font-weight: var(--mpx-fw-b);
-    line-height: var(--mpx-lh-h5);
+    color: var(--sxc-clr-pri);
+    font-size: var(--sxc-fs-h5);
+    font-weight: var(--sxc-fw-b);
+    line-height: var(--sxc-lh-h5);
     letter-spacing: -0.025em;
 }
 
@@ -581,21 +605,21 @@
    ====================================================== */
 
 .shipxio-connect .estimate-notice {
-    margin-top: var(--mpx-pad-sm);
-    padding: var(--mpx-pad-md);
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-sm);
-    background: var(--mpx-surface-l);
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    margin-top: var(--sxc-pad-sm);
+    padding: var(--sxc-pad-md);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-sm);
+    background: var(--sxc-surface-l);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .estimate-notes {
-    margin-top: var(--mpx-pad-md);
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    line-height: var(--mpx-lh-xxs);
+    margin-top: var(--sxc-pad-md);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    line-height: var(--sxc-lh-xxs);
 }
 
 .shipxio-connect .estimate-notes p {
@@ -608,9 +632,9 @@
 
 .shipxio-connect .rates-table-wrapper {
     overflow-x: auto;
-    border: 1px solid var(--mpx-brd-l);
-    border-radius: var(--mpx-brd-md);
-    background: var(--mpx-clr-wh);
+    border: 1px solid var(--sxc-brd-l);
+    border-radius: var(--sxc-brd-md);
+    background: var(--sxc-clr-wh);
 }
 
 .shipxio-connect .rates-table {
@@ -620,25 +644,50 @@
 
 .shipxio-connect .rates-table th,
 .shipxio-connect .rates-table td {
-    padding: var(--mpx-pad-md) var(--mpx-pad-lg);
-    border-bottom: 1px solid var(--mpx-clr-muted-l);
+    padding: var(--sxc-pad-sm) var(--sxc-pad-lg);
+    border-bottom: 1px solid var(--sxc-clr-muted-l);
     text-align: left;
     white-space: nowrap;
 }
 
+/* The header is a sticky scan anchor when the rate ladder is long. */
 .shipxio-connect .rates-table th {
-    background: var(--mpx-surface-l);
-    color: var(--mpx-clr-gray-d);
-    font-size: var(--mpx-fs-xxs);
-    font-weight: var(--mpx-fw-sb);
-    line-height: var(--mpx-lh-xxs);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding-top: var(--sxc-pad-md);
+    padding-bottom: var(--sxc-pad-md);
+    border-bottom: 1px solid var(--sxc-brd-l);
+    background: var(--sxc-surface-l);
+    color: var(--sxc-clr-gray-d);
+    font-size: var(--sxc-fs-xxs);
+    font-weight: var(--sxc-fw-sb);
+    line-height: var(--sxc-lh-xxs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .shipxio-connect .rates-table td {
-    color: var(--mpx-clr-acc-a);
-    font-size: var(--mpx-fs-xs);
-    font-weight: var(--mpx-fw-sb);
-    line-height: var(--mpx-lh-xs);
+    color: var(--sxc-clr-acc-a);
+    font-size: var(--sxc-fs-xs);
+    font-weight: var(--sxc-fw-md);
+    line-height: var(--sxc-lh-xs);
+    font-variant-numeric: tabular-nums;
+}
+
+/* The weight column reads as the row label; the amounts beside it keep
+   the emphasis they had before. */
+.shipxio-connect .rates-table td:first-child {
+    color: var(--sxc-clr-gray-d);
+}
+
+.shipxio-connect .rates-table td:not(:first-child) {
+    font-weight: var(--sxc-fw-sb);
+}
+
+/* Striping scans faster than borders alone on a dense ladder. */
+.shipxio-connect .rates-table tbody tr:nth-child(even) {
+    background: rgba(var(--sxc-clr-blk-rgb), 0.015);
 }
 
 .shipxio-connect .rates-table tbody tr {
@@ -646,7 +695,7 @@
 }
 
 .shipxio-connect .rates-table tbody tr:hover {
-    background: rgba(var(--mpx-clr-pri-rgb), 0.025);
+    background: rgba(var(--sxc-clr-pri-rgb), 0.05);
 }
 
 .shipxio-connect .rates-table tr:last-child td {
@@ -664,13 +713,13 @@
 
 @media (max-width: 640px) {
     .shipxio-connect .section {
-        margin-bottom: var(--mpx-pad-lg);
-        padding: var(--mpx-pad-lg);
-        border-radius: var(--mpx-brd-md);
+        margin-bottom: var(--sxc-pad-lg);
+        padding: var(--sxc-pad-lg);
+        border-radius: var(--sxc-brd-md);
     }
 
     .shipxio-connect .section-header {
-        margin-bottom: var(--mpx-pad-lg);
+        margin-bottom: var(--sxc-pad-lg);
     }
 
     .shipxio-connect .form-grid {
@@ -686,8 +735,8 @@
     }
 
     .shipxio-connect .estimate-result {
-        margin-top: var(--mpx-pad-xxl);
-        gap: var(--mpx-pad-xxl);
+        margin-top: var(--sxc-pad-xxl);
+        gap: var(--sxc-pad-xxl);
     }
 
     .shipxio-connect .estimate-grid {
@@ -698,9 +747,9 @@
 .shipxio-connect .estimate-grid>div:nth-child(odd):not(:last-child),
 .shipxio-connect .estimate-grid>div:nth-child(n + 3) {
         min-height: 68px;
-        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+        padding: var(--sxc-pad-md) var(--sxc-pad-lg);
         border-right: 0;
-        border-top: 1px solid var(--mpx-clr-muted-l);
+        border-top: 1px solid var(--sxc-clr-muted-l);
     }
 
     .shipxio-connect .estimate-grid>div:first-child {
@@ -709,50 +758,55 @@
 
     .shipxio-connect .estimate-grid-two {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        margin: 0 var(--mpx-pad-lg);
+        margin: 0 var(--sxc-pad-lg);
     }
 
     .shipxio-connect .estimate-grid-two>div,
 .shipxio-connect .estimate-grid-two>div:nth-child(n + 3) {
         min-height: 68px;
-        border-top: 1px solid var(--mpx-brd-l);
+        border-top: 1px solid var(--sxc-brd-l);
     }
 
     .shipxio-connect .estimate-grid-two>div:first-child {
-        padding-right: var(--mpx-pad-md);
-        border-top: 1px solid var(--mpx-brd-l);
+        padding-right: var(--sxc-pad-md);
+        border-top: 1px solid var(--sxc-brd-l);
     }
 
     .shipxio-connect .estimate-grid-two>div:last-child {
-        padding-left: var(--mpx-pad-md);
-        border-top: 1px solid var(--mpx-brd-l);
+        padding-left: var(--sxc-pad-md);
+        border-top: 1px solid var(--sxc-brd-l);
     }
 
     .shipxio-connect .classification-heading {
         min-height: 70px;
-        padding: var(--mpx-pad-lg);
+        padding: var(--sxc-pad-lg);
     }
 
     .shipxio-connect .estimate-row {
         min-height: 54px;
-        gap: var(--mpx-pad-md);
-        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+        gap: var(--sxc-pad-md);
+        padding: var(--sxc-pad-md) var(--sxc-pad-lg);
     }
 
     .shipxio-connect .estimate-total {
         min-height: 66px;
-        gap: var(--mpx-pad-md);
-        padding: var(--mpx-pad-md) var(--mpx-pad-lg);
+        gap: var(--sxc-pad-md);
+        padding: var(--sxc-pad-md) var(--sxc-pad-lg);
     }
 
     .shipxio-connect .estimate-total strong {
-        font-size: var(--mpx-fs-headline);
-        line-height: var(--mpx-lh-headline);
+        font-size: var(--sxc-fs-headline);
+        line-height: var(--sxc-lh-headline);
     }
 
     .shipxio-connect .rates-table th,
 .shipxio-connect .rates-table td {
-        padding: var(--mpx-pad-md);
+        padding: var(--sxc-pad-sm) var(--sxc-pad-md);
+    }
+
+    .shipxio-connect .rates-table th {
+        padding-top: var(--sxc-pad-md);
+        padding-bottom: var(--sxc-pad-md);
     }
 
     .shipxio-connect .suggestions {
@@ -762,7 +816,7 @@
 
 @media (max-width: 420px) {
     .shipxio-connect .section {
-        padding: var(--mpx-pad-lg);
+        padding: var(--sxc-pad-lg);
     }
 
     .shipxio-connect .estimate-grid-two {
@@ -771,12 +825,12 @@
 
     .shipxio-connect .estimate-grid-two>div:first-child,
 .shipxio-connect .estimate-grid-two>div:last-child {
-        padding: var(--mpx-pad-md) 0;
+        padding: var(--sxc-pad-md) 0;
         border-right: 0;
     }
 
     .shipxio-connect .estimate-grid-two>div:last-child {
-        border-top: 1px solid var(--mpx-clr-muted-l);
+        border-top: 1px solid var(--sxc-clr-muted-l);
     }
 
     .shipxio-connect .estimate-row {

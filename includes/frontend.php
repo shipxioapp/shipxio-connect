@@ -77,17 +77,30 @@ function shipxio_connect_appearance_css()
     $color = shipxio_connect_primary_color();
     if (SHIPXIO_CONNECT_DEFAULT_COLOR !== $color) {
         $hover = shipxio_connect_darken_hex_color($color, 0.6);
-        $declarations .= '--mpx-clr-pri:' . $color . ';'
-            . '--mpx-clr-pri-rgb:' . shipxio_connect_hex_color_rgb($color) . ';'
-            . '--mpx-clr-sec:' . $hover . ';'
-            . '--mpx-clr-sec-rgb:' . shipxio_connect_hex_color_rgb($hover) . ';';
+        $declarations .= '--sxc-clr-pri:' . $color . ';'
+            . '--sxc-clr-pri-rgb:' . shipxio_connect_hex_color_rgb($color) . ';'
+            . '--sxc-clr-sec:' . $hover . ';'
+            . '--sxc-clr-sec-rgb:' . shipxio_connect_hex_color_rgb($hover) . ';';
     }
 
     $radius = shipxio_connect_border_radius();
     if (SHIPXIO_CONNECT_DEFAULT_RADIUS !== $radius) {
-        $declarations .= '--mpx-brd-sm:' . $radius . 'px;'
-            . '--mpx-brd-md:' . (int) round($radius * 1.5) . 'px;'
-            . '--mpx-brd-lg:' . ($radius * 2) . 'px;';
+        $declarations .= '--sxc-brd-sm:' . $radius . 'px;'
+            . '--sxc-brd-md:' . (int) round($radius * 1.5) . 'px;'
+            . '--sxc-brd-lg:' . ($radius * 2) . 'px;';
+    }
+
+    // One setting drives both axes: the horizontal padding tracks the
+    // vertical one so the button keeps its shape at any size.
+    $padding = shipxio_connect_button_padding();
+    if (SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING !== $padding) {
+        $declarations .= '--sxc-btn-pad-y:' . $padding . 'px;'
+            . '--sxc-btn-pad-x:' . ($padding + 16) . 'px;';
+    }
+
+    $button_text = shipxio_connect_button_text_color();
+    if (SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR !== $button_text) {
+        $declarations .= '--sxc-clr-btn-text:' . $button_text . ';';
     }
 
     return '' === $declarations ? '' : '.shipxio-connect{' . $declarations . '}';

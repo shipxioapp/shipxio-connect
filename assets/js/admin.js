@@ -9,19 +9,43 @@
 (function ($) {
     'use strict';
 
+    /** Which preview variable each color field drives. */
+    const COLOR_FIELDS = {
+        'shipxio-connect-primary-color': '--shipxio-connect-preview-color',
+        'shipxio-connect-button-text-color': '--shipxio-connect-preview-text',
+    };
+
     function initPreview() {
         const preview = document.getElementById('shipxio-connect-preview');
-        const color = document.getElementById('shipxio-connect-primary-color');
         const radius = document.getElementById('shipxio-connect-border-radius');
+        const padding = document.getElementById('shipxio-connect-button-padding');
 
         if (!preview) {
             return function () {};
         }
 
         /** Only a valid hex reaches the preview, matching the server-side rule. */
-        const applyColor = (value) => {
-            if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(String(value || '').trim())) {
-                preview.style.setProperty('--shipxio-connect-preview-color', String(value).trim());
+        const applyColor = (field, value) => {
+            const variable = COLOR_FIELDS[field && field.id];
+
+            if (variable && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(String(value || '').trim())) {
+                preview.style.setProperty(variable, String(value).trim());
+            }
+        };
+
+        /** The horizontal padding tracks the vertical one, as it does live. */
+        const applyPadding = () => {
+            if (!padding) {
+                return;
+            }
+
+            const parsed = parseInt(padding.value, 10);
+            const min = parseInt(padding.min, 10) || 0;
+            const max = parseInt(padding.max, 10) || 24;
+
+            if (Number.isFinite(parsed) && parsed >= min && parsed <= max) {
+                preview.style.setProperty('--shipxio-connect-preview-pad-y', parsed + 'px');
+                preview.style.setProperty('--shipxio-connect-preview-pad-x', (parsed + 16) + 'px');
             }
         };
 
@@ -44,9 +68,18 @@
             radius.addEventListener('change', applyRadius);
         }
 
-        if (color) {
-            color.addEventListener('input', () => applyColor(color.value));
+        if (padding) {
+            padding.addEventListener('input', applyPadding);
+            padding.addEventListener('change', applyPadding);
         }
+
+        Object.keys(COLOR_FIELDS).forEach((id) => {
+            const field = document.getElementById(id);
+
+            if (field) {
+                field.addEventListener('input', () => applyColor(field, field.value));
+            }
+        });
 
         return applyColor;
     }
@@ -114,10 +147,10 @@
         if (field.length && typeof field.wpColorPicker === 'function') {
             field.wpColorPicker({
                 change: function (event, ui) {
-                    applyColor(ui.color.toString());
+                    applyColor(this, ui.color.toString());
                 },
                 clear: function () {
-                    applyColor($(this).data('default-color'));
+                    applyColor(this, $(this).data('default-color'));
                 },
             });
         }

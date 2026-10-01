@@ -133,12 +133,17 @@ jobs:
           # into a shipxio-connect/ directory first. WordPress needs exactly
           # that folder name for "Update now" to upgrade the install in place
           # instead of creating a second plugin directory.
-          rm -rf build shipxio-connect.zip
+          rm -rf build shipxio-connect*.zip
           mkdir -p build/shipxio-connect
           rsync -a --exclude-from=.distignore ./ build/shipxio-connect/
 
           ( cd build && zip -rqX ../shipxio-connect.zip shipxio-connect )
-          ls -l shipxio-connect.zip
+
+          # Two names for one archive. shipxio-connect.zip is the stable name
+          # the updater and the public /releases/latest/download/ link depend
+          # on; the versioned copy is the durable per-release artifact.
+          cp shipxio-connect.zip "shipxio-connect-${{ steps.version.outputs.version }}.zip"
+          ls -l shipxio-connect*.zip
 
       - name: Verify the built ZIP
         run: |
@@ -239,11 +244,16 @@ jobs:
           set -euo pipefail
           TAG="${{ steps.version.outputs.tag }}"
 
-          gh release upload "$TAG" shipxio-connect.zip --clobber
+          VERSIONED="shipxio-connect-${{ steps.version.outputs.version }}.zip"
 
-          gh release view "$TAG" --json assets --jq '.assets[].name' | grep -qx 'shipxio-connect.zip' \
+          gh release upload "$TAG" shipxio-connect.zip "$VERSIONED" --clobber
+
+          gh release view "$TAG" --json assets --jq '.assets[].name' > /tmp/assets.txt
+          grep -qx 'shipxio-connect.zip' /tmp/assets.txt \
             || { echo "::error::shipxio-connect.zip was not attached to the draft."; exit 1; }
-          echo "asset attached to the draft"
+          grep -qx "$VERSIONED" /tmp/assets.txt \
+            || { echo "::error::$VERSIONED was not attached to the draft."; exit 1; }
+          echo "both assets attached to the draft"
 
       - name: Publish the release
         if: steps.release_state.outputs.state != 'published'
@@ -264,6 +274,49 @@ jobs:
         run: |
           echo "Release ${{ steps.version.outputs.tag }} is already published with shipxio-connect.zip attached."
           echo "Leaving the immutable release untouched and continuing to the metadata step."
+
+      # Only the three most recent releases are kept. This removes the
+      # GitHub Release object by its id, which is the one operation that
+      # provably cannot touch a tag: gh release delete has a --cleanup-tag
+      # flag, so the CLI is avoided here rather than relying on its default.
+      # Tags are historical version references and are never deleted.
+      - name: Keep only the three most recent releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          KEEP=3
+
+          git fetch --tags --quiet
+          git tag --list | sort > /tmp/tags-before.txt
+          echo "tags before cleanup: $(wc -l < /tmp/tags-before.txt)"
+
+          # Published releases, newest first.
+          gh api --paginate 'repos/${{ github.repository }}/releases' \
+            --jq '.[] | select(.draft == false) | [.published_at, .id, .tag_name] | @tsv' \
+            | sort -r > /tmp/releases.tsv
+
+          TOTAL=$(wc -l < /tmp/releases.tsv)
+          echo "published releases: $TOTAL (keeping $KEEP)"
+          sed -n "1,${KEEP}p" /tmp/releases.tsv | cut -f3 | sed 's/^/  keep   /'
+
+          if [ "$TOTAL" -gt "$KEEP" ]; then
+            tail -n +$((KEEP + 1)) /tmp/releases.tsv | while IFS=$'\t' read -r PUBLISHED ID TAG_NAME; do
+              echo "  delete release $TAG_NAME (id $ID), keeping its tag"
+              gh api -X DELETE "repos/${{ github.repository }}/releases/$ID"
+            done
+          else
+            echo "  nothing to remove"
+          fi
+
+          # Prove no tag disappeared. A lost tag fails the run loudly.
+          git fetch --tags --quiet
+          git tag --list | sort > /tmp/tags-after.txt
+          if ! diff -u /tmp/tags-before.txt /tmp/tags-after.txt; then
+            echo "::error::Release cleanup changed the tag list. Tags must never be removed."
+            exit 1
+          fi
+          echo "all $(wc -l < /tmp/tags-after.txt) tags intact"
 
       # Runs whether the release was just published or was already live, so a
       # failure here is fixed simply by re-running the workflow for this tag.

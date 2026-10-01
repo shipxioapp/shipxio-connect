@@ -291,10 +291,10 @@
 }
 
 .shipxio-connect-admin .shipxio-connect-preview-button {
-    padding: 9px 18px;
+    padding: var(--shipxio-connect-preview-pad-y, 12px) var(--shipxio-connect-preview-pad-x, 28px);
     border-radius: var(--shipxio-connect-preview-radius, 8px);
     background: var(--shipxio-connect-preview-color, var(--sxc-primary));
-    color: var(--sxc-white);
+    color: var(--shipxio-connect-preview-text, var(--sxc-white));
     font-size: 13px;
     font-weight: 600;
     line-height: 1.2;

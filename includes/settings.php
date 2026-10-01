@@ -31,6 +31,18 @@ function shipxio_connect_register_settings()
         'default'           => SHIPXIO_CONNECT_DEFAULT_RADIUS,
         'show_in_rest'      => false,
     ));
+    register_setting('shipxio_connect', 'shipxio_connect_button_padding', array(
+        'type'              => 'integer',
+        'sanitize_callback' => 'shipxio_connect_sanitize_button_padding',
+        'default'           => SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING,
+        'show_in_rest'      => false,
+    ));
+    register_setting('shipxio_connect', 'shipxio_connect_button_text_color', array(
+        'type'              => 'string',
+        'sanitize_callback' => 'shipxio_connect_sanitize_button_text_color',
+        'default'           => SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR,
+        'show_in_rest'      => false,
+    ));
 
     // The sections group the fields; the settings page draws its own cards.
     add_settings_section('shipxio_connect_connection', '', '__return_false', 'shipxio-connect');
@@ -67,6 +79,22 @@ function shipxio_connect_register_settings()
         'shipxio-connect',
         'shipxio_connect_appearance',
         array('label_for' => 'shipxio-connect-border-radius')
+    );
+    add_settings_field(
+        'shipxio_connect_button_padding',
+        __('Button padding', 'shipxio-connect'),
+        'shipxio_connect_render_button_padding_field',
+        'shipxio-connect',
+        'shipxio_connect_appearance',
+        array('label_for' => 'shipxio-connect-button-padding')
+    );
+    add_settings_field(
+        'shipxio_connect_button_text_color',
+        __('Button text color', 'shipxio-connect'),
+        'shipxio_connect_render_button_text_color_field',
+        'shipxio-connect',
+        'shipxio_connect_appearance',
+        array('label_for' => 'shipxio-connect-button-text-color')
     );
 }
 
@@ -278,9 +306,14 @@ function shipxio_connect_render_card($section, $title, $lead)
 function shipxio_connect_render_appearance_preview()
 {
     $style = sprintf(
-        '--shipxio-connect-preview-color:%1$s;--shipxio-connect-preview-radius:%2$dpx;',
+        '--shipxio-connect-preview-color:%1$s;--shipxio-connect-preview-radius:%2$dpx;'
+        . '--shipxio-connect-preview-pad-y:%3$dpx;--shipxio-connect-preview-pad-x:%4$dpx;'
+        . '--shipxio-connect-preview-text:%5$s;',
         shipxio_connect_primary_color(),
-        shipxio_connect_border_radius()
+        shipxio_connect_border_radius(),
+        shipxio_connect_button_padding(),
+        shipxio_connect_button_padding() + 16,
+        shipxio_connect_button_text_color()
     );
     ?>
     <div class="shipxio-connect-preview" id="shipxio-connect-preview" style="<?php echo esc_attr($style); ?>">
@@ -402,5 +435,97 @@ function shipxio_connect_render_settings_page()
             </div>
         </section>
     </div>
+    <?php
+}
+
+/**
+ * Validate the button padding.
+ *
+ * Mirrors the border radius setting: one integer in pixels, constrained to a
+ * range that keeps the button comfortable without letting it dominate a page.
+ */
+function shipxio_connect_sanitize_button_padding($value)
+{
+    $padding = is_scalar($value)
+        ? filter_var(trim((string) $value), FILTER_VALIDATE_INT, array('options' => array(
+            'min_range' => SHIPXIO_CONNECT_MIN_BUTTON_PADDING,
+            'max_range' => SHIPXIO_CONNECT_MAX_BUTTON_PADDING,
+        )))
+        : false;
+    if (false === $padding) {
+        add_settings_error('shipxio_connect_button_padding', 'invalid_button_padding', sprintf(
+            /* translators: 1: smallest allowed button padding, 2: largest allowed button padding. */
+            __('Enter a button padding between %1$d and %2$d pixels.', 'shipxio-connect'),
+            SHIPXIO_CONNECT_MIN_BUTTON_PADDING,
+            SHIPXIO_CONNECT_MAX_BUTTON_PADDING
+        ));
+        return shipxio_connect_button_padding();
+    }
+    return $padding;
+}
+
+function shipxio_connect_sanitize_button_text_color($value)
+{
+    $color = is_scalar($value) ? sanitize_hex_color(trim((string) $value)) : null;
+    if (null === $color || '' === $color) {
+        add_settings_error('shipxio_connect_button_text_color', 'invalid_button_text_color', __('Enter a valid hex color for the button text, such as #FFFFFF.', 'shipxio-connect'));
+        return shipxio_connect_button_text_color();
+    }
+    return strtolower($color);
+}
+
+/** The stored button padding in pixels, clamped to the supported range. */
+function shipxio_connect_button_padding()
+{
+    $padding = filter_var(get_option('shipxio_connect_button_padding', SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING), FILTER_VALIDATE_INT, array('options' => array(
+        'min_range' => SHIPXIO_CONNECT_MIN_BUTTON_PADDING,
+        'max_range' => SHIPXIO_CONNECT_MAX_BUTTON_PADDING,
+    )));
+
+    return false === $padding ? SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING : $padding;
+}
+
+/** The stored button text color, already sanitized, falling back to the default. */
+function shipxio_connect_button_text_color()
+{
+    $color = sanitize_hex_color((string) get_option('shipxio_connect_button_text_color', SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR));
+
+    return null === $color || '' === $color ? SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR : strtolower($color);
+}
+
+function shipxio_connect_render_button_padding_field()
+{
+    ?>
+    <span class="shipxio-connect-radius-control">
+        <input type="number" class="small-text" id="shipxio-connect-button-padding" name="shipxio_connect_button_padding" value="<?php echo esc_attr((string) shipxio_connect_button_padding()); ?>" min="<?php echo esc_attr((string) SHIPXIO_CONNECT_MIN_BUTTON_PADDING); ?>" max="<?php echo esc_attr((string) SHIPXIO_CONNECT_MAX_BUTTON_PADDING); ?>" step="1">
+        <span class="shipxio-connect-unit"><?php echo esc_html__('px', 'shipxio-connect'); ?></span>
+    </span>
+    <p class="description">
+        <?php
+        printf(
+            /* translators: 1: smallest allowed button padding, 2: largest allowed button padding, 3: default button padding. */
+            esc_html__('Space inside the calculate button, between %1$d and %2$d pixels. The width grows with it so the button stays in proportion. Defaults to %3$d.', 'shipxio-connect'),
+            (int) SHIPXIO_CONNECT_MIN_BUTTON_PADDING,
+            (int) SHIPXIO_CONNECT_MAX_BUTTON_PADDING,
+            (int) SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING
+        );
+        ?>
+    </p>
+    <?php
+}
+
+function shipxio_connect_render_button_text_color_field()
+{
+    ?>
+    <input type="text" class="shipxio-connect-color-field regular-text code" id="shipxio-connect-button-text-color" name="shipxio_connect_button_text_color" value="<?php echo esc_attr(shipxio_connect_button_text_color()); ?>" data-default-color="<?php echo esc_attr(SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR); ?>" maxlength="7">
+    <p class="description">
+        <?php
+        printf(
+            /* translators: %s: the default hex color. */
+            esc_html__('Text on the calculate button. Choose one that stays readable on your primary color. Defaults to %s.', 'shipxio-connect'),
+            '<code>' . esc_html(strtoupper(SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR)) . '</code>'
+        );
+        ?>
+    </p>
     <?php
 }

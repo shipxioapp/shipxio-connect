@@ -144,15 +144,22 @@ No. Shipxio remains authoritative for shipping rates, estimates, HS Code suggest
 
 = Can I change the plugin's colors? =
 
-Yes. Settings > Shipxio Connect has a primary color and a border radius setting. The primary color is used for the calculate button, focus rings, and highlights. The border radius sets the corner rounding for fields, buttons, cards, and tables, from 0 to 24 pixels.
+Yes. Settings > Shipxio Connect has four appearance settings: a primary color, a border radius, a button padding, and a button text color. The primary color is used for the calculate button, focus rings, and highlights. The border radius sets the corner rounding for fields, buttons, cards, and tables, from 0 to 24 pixels. The button padding sets how much space sits inside the calculate button, from 6 to 24 pixels. The button text color sets the label on that button.
 
-Both settings apply only to the Shipxio Connect output. They do not change your theme, and the plugin does not accept custom CSS or HTML.
+These settings apply only to the Shipxio Connect output. They do not change your theme, and the plugin does not accept custom CSS or HTML.
 
 = Does the plugin use my website's font? =
 
 Yes. Shipxio Connect inherits the host website's font family while retaining its own layout, sizing, spacing, and component styling.
 
 == Changelog ==
+
+= 1.0.9 =
+* Larger, more comfortable calculate button.
+* Added a button padding setting under Appearance.
+* Added a button text color setting under Appearance.
+* Refined the calculator fields, including clearer focus, placeholder, and disabled states.
+* Tightened the shipping rates table so it is more compact and easier to scan.
 
 = 1.0.8 =
 * Added the Shipxio Connect icon to the WordPress updates and plugin details screens, replacing the generic plugin placeholder.

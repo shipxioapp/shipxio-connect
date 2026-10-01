@@ -10,144 +10,157 @@
        Fonts
     ======================= */
 
-    --mpx-ff-heading: "Plus Jakarta Sans", sans-serif;
-    --mpx-ff-body: "Geist", sans-serif;
+    --sxc-ff-heading: "Plus Jakarta Sans", sans-serif;
+    --sxc-ff-body: "Geist", sans-serif;
 
     /* =======================
        Typography
     ======================= */
 
-    --mpx-fs-h1: clamp(2.5rem, 1.92074rem + 2.439vw, 3.75rem);
-    --mpx-lh-h1: clamp(2.8125rem, 2.23324rem + 2.439vw, 4.0625rem);
+    --sxc-fs-h1: clamp(2.5rem, 1.92074rem + 2.439vw, 3.75rem);
+    --sxc-lh-h1: clamp(2.8125rem, 2.23324rem + 2.439vw, 4.0625rem);
 
-    --mpx-fs-h2: clamp(2rem, 1.53664rem + 1.951vw, 3rem);
-    --mpx-lh-h2: clamp(2.3125rem, 1.84914rem + 1.951vw, 3.3125rem);
+    --sxc-fs-h2: clamp(2rem, 1.53664rem + 1.951vw, 3rem);
+    --sxc-lh-h2: clamp(2.3125rem, 1.84914rem + 1.951vw, 3.3125rem);
 
-    --mpx-fs-h3: clamp(1.75rem, 1.40254rem + 1.463vw, 2.5rem);
-    --mpx-lh-h3: clamp(2.0625rem, 1.71504rem + 1.463vw, 2.8125rem);
+    --sxc-fs-h3: clamp(1.75rem, 1.40254rem + 1.463vw, 2.5rem);
+    --sxc-lh-h3: clamp(2.0625rem, 1.71504rem + 1.463vw, 2.8125rem);
 
-    --mpx-fs-h4: clamp(1.5rem, 1.3841rem + 0.488vw, 1.75rem);
-    --mpx-lh-h4: clamp(1.8125rem, 1.6966rem + 0.488vw, 2.0625rem);
+    --sxc-fs-h4: clamp(1.5rem, 1.3841rem + 0.488vw, 1.75rem);
+    --sxc-lh-h4: clamp(1.8125rem, 1.6966rem + 0.488vw, 2.0625rem);
 
-    --mpx-fs-h5: clamp(1.25rem, 1.1341rem + 0.488vw, 1.5rem);
-    --mpx-lh-h5: clamp(1.5625rem, 1.4466rem + 0.488vw, 1.8125rem);
+    --sxc-fs-h5: clamp(1.25rem, 1.1341rem + 0.488vw, 1.5rem);
+    --sxc-lh-h5: clamp(1.5625rem, 1.4466rem + 0.488vw, 1.8125rem);
 
-    --mpx-fs-headline: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
-    --mpx-lh-headline: clamp(1.375rem, 1.32rem + 0.2vw, 1.5rem);
+    --sxc-fs-headline: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+    --sxc-lh-headline: clamp(1.375rem, 1.32rem + 0.2vw, 1.5rem);
 
-    --mpx-fs-body: 1rem;
-    --mpx-lh-body: clamp(1.4375rem, 1.37955rem + 0.244vw, 1.5625rem);
+    --sxc-fs-body: 1rem;
+    --sxc-lh-body: clamp(1.4375rem, 1.37955rem + 0.244vw, 1.5625rem);
 
-    --mpx-fs-sm: 0.9375rem;
-    --mpx-lh-sm: 1.4rem;
+    --sxc-fs-sm: 0.9375rem;
+    --sxc-lh-sm: 1.4rem;
 
-    --mpx-fs-xs: clamp(0.84375rem, 0.82926rem + 0.061vw, 0.875rem);
-    --mpx-lh-xs: 1.4rem;
+    --sxc-fs-xs: clamp(0.84375rem, 0.82926rem + 0.061vw, 0.875rem);
+    --sxc-lh-xs: 1.4rem;
 
-    --mpx-fs-xxs: clamp(0.75rem, 0.70654rem + 0.183vw, 0.84375rem);
-    --mpx-lh-xxs: 1.4rem;
+    --sxc-fs-xxs: clamp(0.75rem, 0.70654rem + 0.183vw, 0.84375rem);
+    --sxc-lh-xxs: 1.4rem;
 
-    --mpx-fw-n: 400;
-    --mpx-fw-md: 500;
-    --mpx-fw-sb: 600;
-    --mpx-fw-b: 700;
+    --sxc-fw-n: 400;
+    --sxc-fw-md: 500;
+    --sxc-fw-sb: 600;
+    --sxc-fw-b: 700;
 
     /* =======================
        Colors
     ======================= */
 
-    --mpx-clr-pri: #2A7FFF;
-    --mpx-clr-sec: #164C9E;
-    --mpx-clr-acc-a: #0D0D0D;
-    --mpx-clr-acc-b: #1A1A1A;
-    --mpx-clr-wh: #ffffff;
-    --mpx-clr-blk: #000000;
-    --mpx-clr-pri-alt: #6AA5FF;
+    --sxc-clr-pri: #2A7FFF;
+    --sxc-clr-sec: #164C9E;
+    --sxc-clr-acc-a: #0D0D0D;
+    --sxc-clr-acc-b: #1A1A1A;
+    --sxc-clr-wh: #ffffff;
+    --sxc-clr-blk: #000000;
+    --sxc-clr-pri-alt: #6AA5FF;
 
-    --mpx-clr-pri-rgb: 42, 127, 255;
-    --mpx-clr-sec-rgb: 22, 76, 158;
-    --mpx-clr-acc-a-rgb: 13, 13, 13;
-    --mpx-clr-acc-b-rgb: 26, 26, 26;
-    --mpx-clr-wh-rgb: 255, 255, 255;
-    --mpx-clr-blk-rgb: 0, 0, 0;
+    /* Text on the action button. Settable, so it can stay legible on any
+       primary color the site owner chooses. */
+    --sxc-clr-btn-text: #ffffff;
 
-    --mpx-clr-owh: #FCFCFC;
-    --mpx-clr-gray-l: #9E9E9E;
-    --mpx-clr-gray-d: #636363;
+    --sxc-clr-pri-rgb: 42, 127, 255;
+    --sxc-clr-sec-rgb: 22, 76, 158;
+    --sxc-clr-acc-a-rgb: 13, 13, 13;
+    --sxc-clr-acc-b-rgb: 26, 26, 26;
+    --sxc-clr-wh-rgb: 255, 255, 255;
+    --sxc-clr-blk-rgb: 0, 0, 0;
 
-    --mpx-clr-neutral-black: #0B0B0B;
-    --mpx-clr-muted-d: #222222;
-    --mpx-clr-muted-l: #EEEEEE;
-    --mpx-surface-d: #0B0B0B;
-    --mpx-surface-l: #FCFCFC;
+    --sxc-clr-owh: #FCFCFC;
+    --sxc-clr-gray-l: #9E9E9E;
+    --sxc-clr-gray-d: #636363;
 
-    --mpx-brd-l: #DEDEDE;
-    --mpx-brd-d: #161616;
+    --sxc-clr-neutral-black: #0B0B0B;
+    --sxc-clr-muted-d: #222222;
+    --sxc-clr-muted-l: #EEEEEE;
+    --sxc-surface-d: #0B0B0B;
+    --sxc-surface-l: #FCFCFC;
 
-    --mpx-clr-err-l: #D7291F;
-    --mpx-clr-err-d: #D73337;
+    --sxc-brd-l: #DEDEDE;
+    --sxc-brd-d: #161616;
 
-    --mpx-clr-succ-l: #2C8724;
-    --mpx-clr-succ-d: #3CAD32;
+    --sxc-clr-err-l: #D7291F;
+    --sxc-clr-err-d: #D73337;
 
-    --mpx-clr-warn-l: #AB7500;
-    --mpx-clr-warn-d: #C18200;
+    --sxc-clr-succ-l: #2C8724;
+    --sxc-clr-succ-d: #3CAD32;
 
-    --mpx-clr-attn-l: #EBC000;
-    --mpx-clr-attn-d: #B59600;
+    --sxc-clr-warn-l: #AB7500;
+    --sxc-clr-warn-d: #C18200;
 
-    --mpx-clr-info-l: #0086C7;
-    --mpx-clr-info-d: #3394D4;
+    --sxc-clr-attn-l: #EBC000;
+    --sxc-clr-attn-d: #B59600;
 
-    --mpx-clr-disabled-l: #979FAB;
-    --mpx-clr-disabled-d: #6B727E;
+    --sxc-clr-info-l: #0086C7;
+    --sxc-clr-info-d: #3394D4;
+
+    --sxc-clr-disabled-l: #979FAB;
+    --sxc-clr-disabled-d: #6B727E;
 
     /* =======================
        Shadows
     ======================= */
 
-    --mpx-shd-rgb: var(--mpx-clr-blk-rgb);
-    --mpx-shd-rgb-hov: var(--mpx-clr-sec-rgb);
+    --sxc-shd-rgb: var(--sxc-clr-blk-rgb);
+    --sxc-shd-rgb-hov: var(--sxc-clr-sec-rgb);
 
-    --mpx-shd-h-sm: 8px 0 8px rgba(var(--mpx-shd-rgb), 0.08);
-    --mpx-shd-h-md: 12px 0 8px rgba(var(--mpx-shd-rgb), 0.16);
-    --mpx-shd-h-lg: 16px 0 8px rgba(var(--mpx-shd-rgb), 0.2);
+    --sxc-shd-h-sm: 8px 0 8px rgba(var(--sxc-shd-rgb), 0.08);
+    --sxc-shd-h-md: 12px 0 8px rgba(var(--sxc-shd-rgb), 0.16);
+    --sxc-shd-h-lg: 16px 0 8px rgba(var(--sxc-shd-rgb), 0.2);
 
-    --mpx-shd-v-sm: 0 8px 8px rgba(var(--mpx-shd-rgb), 0.08);
-    --mpx-shd-v-md: 0 12px 8px rgba(var(--mpx-shd-rgb), 0.16);
-    --mpx-shd-v-lg: 0 16px 8px rgba(var(--mpx-shd-rgb), 0.2);
+    --sxc-shd-v-sm: 0 8px 8px rgba(var(--sxc-shd-rgb), 0.08);
+    --sxc-shd-v-md: 0 12px 8px rgba(var(--sxc-shd-rgb), 0.16);
+    --sxc-shd-v-lg: 0 16px 8px rgba(var(--sxc-shd-rgb), 0.2);
 
-    --mpx-shd-hv-sm: 2px 4px 8px rgba(var(--mpx-shd-rgb), 0.08);
-    --mpx-shd-hv-md: 4px 8px 16px rgba(var(--mpx-shd-rgb), 0.16);
-    --mpx-shd-hv-lg: 8px 16px 16px rgba(var(--mpx-shd-rgb), 0.2);
+    --sxc-shd-hv-sm: 2px 4px 8px rgba(var(--sxc-shd-rgb), 0.08);
+    --sxc-shd-hv-md: 4px 8px 16px rgba(var(--sxc-shd-rgb), 0.16);
+    --sxc-shd-hv-lg: 8px 16px 16px rgba(var(--sxc-shd-rgb), 0.2);
 
-    --mpx-shd-hov: 0 0 12px 4px rgba(var(--mpx-shd-rgb-hov), 0.16);
-    --mpx-shd-foc: 0 0 12px 4px rgba(var(--mpx-shd-rgb-hov), 0.2);
+    --sxc-shd-hov: 0 0 12px 4px rgba(var(--sxc-shd-rgb-hov), 0.16);
+    --sxc-shd-foc: 0 0 12px 4px rgba(var(--sxc-shd-rgb-hov), 0.2);
 
     /* =======================
        Buttons
     ======================= */
 
-    --mpx-btn-pad-sm: 0.5rem 1.5rem;
-    --mpx-btn-pad-md: 0.75rem 1.5rem;
-    --mpx-btn-pad-lg: 1rem 1.5rem;
+    --sxc-btn-pad-sm: 0.5rem 1.5rem;
+    --sxc-btn-pad-md: 0.75rem 1.5rem;
+    --sxc-btn-pad-lg: 1rem 1.5rem;
+
+    /**
+     * Padding of the plugin's action button. The vertical value is what the
+     * Appearance setting controls; the horizontal one follows it so the
+     * button stays proportionate at every size.
+     */
+    --sxc-btn-pad-y: 0.75rem;
+    --sxc-btn-pad-x: 1.75rem;
+    --sxc-btn-pad: var(--sxc-btn-pad-y) var(--sxc-btn-pad-x);
 
     /* =======================
        Spacing
     ======================= */
 
-    --mpx-pad-sm: 0.5rem;
-    --mpx-pad-md: 0.75rem;
-    --mpx-pad-lg: 1.25rem;
-    --mpx-pad-xl: 1.5rem;
-    --mpx-pad-xxl: 2rem;
+    --sxc-pad-sm: 0.5rem;
+    --sxc-pad-md: 0.75rem;
+    --sxc-pad-lg: 1.25rem;
+    --sxc-pad-xl: 1.5rem;
+    --sxc-pad-xxl: 2rem;
 
     /* =======================
        Radius
     ======================= */
 
-    --mpx-brd-sm: 0.5rem;
-    --mpx-brd-md: 0.75rem;
-    --mpx-brd-lg: 1rem;
-    --mpx-brd-pill: 999rem;
+    --sxc-brd-sm: 0.5rem;
+    --sxc-brd-md: 0.75rem;
+    --sxc-brd-lg: 1rem;
+    --sxc-brd-pill: 999rem;
 }
