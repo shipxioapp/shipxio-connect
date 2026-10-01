@@ -223,7 +223,7 @@
 
 .shipxio-connect .field input:focus,
 .shipxio-connect .field select:focus {
-    border-color: var(--sxc-clr-gray-l);
+    border-color: var(--sxc-clr-pri);
     box-shadow: 0 0 0 3px rgba(var(--sxc-clr-blk-rgb), 0.12);
 }
 

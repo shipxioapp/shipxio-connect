@@ -154,6 +154,9 @@ Yes. Shipxio Connect inherits the host website's font family while retaining its
 
 == Changelog ==
 
+= 1.0.12 =
+* Maintenance and improvements.
+
 = 1.0.11 =
 * Maintenance and improvements.
 
