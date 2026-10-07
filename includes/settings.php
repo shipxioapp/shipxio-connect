@@ -44,6 +44,27 @@ function shipxio_connect_register_settings()
         'show_in_rest'      => false,
     ));
 
+    foreach (array('sign_in', 'sign_up') as $purpose) {
+        register_setting('shipxio_connect', 'shipxio_connect_' . $purpose . '_url', array(
+            'type'              => 'string',
+            'sanitize_callback' => 'shipxio_connect_sanitize_' . $purpose . '_url',
+            'default'           => '',
+            'show_in_rest'      => false,
+        ));
+    }
+
+    add_settings_section('shipxio_connect_redirects', '', '__return_false', 'shipxio-connect');
+    foreach (array('sign_in' => __('Sign-in URL', 'shipxio-connect'), 'sign_up' => __('Sign-up URL', 'shipxio-connect')) as $purpose => $label) {
+        add_settings_field(
+            'shipxio_connect_' . $purpose . '_url',
+            $label,
+            'shipxio_connect_render_redirect_url_field',
+            'shipxio-connect',
+            'shipxio_connect_redirects',
+            array('label_for' => 'shipxio-connect-' . $purpose . '-url', 'purpose' => $purpose)
+        );
+    }
+
     // The sections group the fields; the settings page draws its own cards.
     add_settings_section('shipxio_connect_connection', '', '__return_false', 'shipxio-connect');
     add_settings_field(
@@ -96,6 +117,65 @@ function shipxio_connect_register_settings()
         'shipxio_connect_appearance',
         array('label_for' => 'shipxio-connect-button-text-color')
     );
+}
+
+/** Redirects accept complete HTTP(S) URLs, including paths and queries. */
+function shipxio_connect_valid_redirect_url($url)
+{
+    if (! is_string($url) || strlen($url) > 2048 || ! filter_var($url, FILTER_VALIDATE_URL)) {
+        return false;
+    }
+    $parts = wp_parse_url($url);
+    return is_array($parts)
+        && in_array(strtolower($parts['scheme'] ?? ''), array('http', 'https'), true)
+        && ! empty($parts['host'])
+        && ! isset($parts['user']) && ! isset($parts['pass'])
+        && ! preg_match('/[\x00-\x20\x7f\\\\]/', $url);
+}
+
+function shipxio_connect_sanitize_redirect_url($value, $option)
+{
+    $url = is_string($value) ? trim($value) : null;
+    if ('' === $url) {
+        return '';
+    }
+    if (shipxio_connect_valid_redirect_url($url)) {
+        $url = esc_url_raw($url, array('http', 'https'));
+        if (shipxio_connect_valid_redirect_url($url)) {
+            return $url;
+        }
+    }
+    add_settings_error($option, 'invalid_redirect_url', __('Enter a complete HTTP or HTTPS URL without embedded login credentials.', 'shipxio-connect'));
+    return get_option($option, '');
+}
+
+function shipxio_connect_sanitize_sign_in_url($value)
+{
+    return shipxio_connect_sanitize_redirect_url($value, 'shipxio_connect_sign_in_url');
+}
+
+function shipxio_connect_sanitize_sign_up_url($value)
+{
+    return shipxio_connect_sanitize_redirect_url($value, 'shipxio_connect_sign_up_url');
+}
+
+/** Revalidate stored values before exposing a navigation destination. */
+function shipxio_connect_redirect_url($purpose)
+{
+    if (! in_array($purpose, array('sign_in', 'sign_up'), true)) {
+        return '';
+    }
+    $url = get_option('shipxio_connect_' . $purpose . '_url', '');
+    return shipxio_connect_valid_redirect_url($url) ? esc_url_raw($url, array('http', 'https')) : '';
+}
+
+function shipxio_connect_render_redirect_url_field($args)
+{
+    $purpose = $args['purpose'];
+    ?>
+    <input type="url" class="regular-text code" id="<?php echo esc_attr($args['label_for']); ?>" name="<?php echo esc_attr('shipxio_connect_' . $purpose . '_url'); ?>" value="<?php echo esc_attr(shipxio_connect_redirect_url($purpose)); ?>" maxlength="2048">
+    <p class="description"><?php echo esc_html__('Enter the full destination URL. Leave blank to disable this redirect shortcode.', 'shipxio-connect'); ?></p>
+    <?php
 }
 
 function shipxio_connect_sanitize_base_url($value)
@@ -378,6 +458,12 @@ function shipxio_connect_render_settings_page()
             );
 
             shipxio_connect_render_card(
+                'shipxio_connect_redirects',
+                __('Redirects', 'shipxio-connect'),
+                __('Configure the sign-in and sign-up destinations used by the redirect shortcodes. Each shortcode automatically navigates visitors after a short delay.', 'shipxio-connect')
+            );
+
+            shipxio_connect_render_card(
                 'shipxio_connect_appearance',
                 __('Appearance', 'shipxio-connect'),
                 __('These settings apply to the Shipxio Connect shortcodes only. They never change the rest of your website, and the plugin keeps using your theme font.', 'shipxio-connect')
@@ -394,11 +480,21 @@ function shipxio_connect_render_settings_page()
             <div class="shipxio-connect-card-head">
                 <h2><?php echo esc_html__('Shortcodes', 'shipxio-connect'); ?></h2>
                 <p><?php echo esc_html__('Add one of these to any WordPress page or post. They also work inside Elementor\'s standard Shortcode widget.', 'shipxio-connect'); ?></p>
-                <p><?php echo esc_html__('Each shortcode shows its own title and description by default. Adding show_intro="false" hides them, which is useful when your page already has a heading of its own.', 'shipxio-connect'); ?></p>
+                <p><?php echo esc_html__('The calculator and rates shortcodes show their own title and description by default. Adding show_intro="false" hides them, which is useful when your page already has a heading of its own.', 'shipxio-connect'); ?></p>
             </div>
             <div class="shipxio-connect-card-body">
                 <ul class="shipxio-connect-shortcodes">
                     <?php
+                    shipxio_connect_render_shortcode_row(
+                        '[shipxio_connect_sign_in]',
+                        __('Sign-in redirect', 'shipxio-connect'),
+                        __('Opens the configured sign-in URL. Your page controls the surrounding layout.', 'shipxio-connect')
+                    );
+                    shipxio_connect_render_shortcode_row(
+                        '[shipxio_connect_sign_up]',
+                        __('Sign-up redirect', 'shipxio-connect'),
+                        __('Opens the configured sign-up URL. Your page controls the surrounding layout.', 'shipxio-connect')
+                    );
                     shipxio_connect_render_shortcode_row(
                         '[shipxio_connect]',
                         __('Full experience', 'shipxio-connect'),

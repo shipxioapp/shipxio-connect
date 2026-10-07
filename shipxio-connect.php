@@ -45,6 +45,8 @@ add_action('init', 'shipxio_connect_register_assets');
 add_shortcode('shipxio_connect', 'shipxio_connect_render_shortcode');
 add_shortcode('shipxio_connect_calculator', 'shipxio_connect_render_calculator_shortcode');
 add_shortcode('shipxio_connect_rates', 'shipxio_connect_render_rates_shortcode');
+add_shortcode('shipxio_connect_sign_in', 'shipxio_connect_render_sign_in_shortcode');
+add_shortcode('shipxio_connect_sign_up', 'shipxio_connect_render_sign_up_shortcode');
 
 // Updates come from the project's own releases, matching the Update URI host.
 add_filter('update_plugins_shipxio.com', 'shipxio_connect_check_for_update', 10, 3);

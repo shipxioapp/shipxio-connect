@@ -42,6 +42,27 @@ All three render through the same client, REST routes, and assets. Several short
 
 The plugin renders no heading or branding of its own, so the page keeps its own title and introduction.
 
+## Redirect shortcodes
+
+Set **Sign-in URL** and **Sign-up URL** under **Settings → Shipxio Connect → Redirects**.
+Use complete trusted HTTP or HTTPS destinations; paths and queries are supported.
+Invalid values retain the previous setting. Blank values disable the corresponding
+shortcode. Destinations cannot be supplied through shortcode attributes.
+
+- `[shipxio_connect_sign_in]` shows “Opening your dashboard”.
+- `[shipxio_connect_sign_up]` shows “Opening your sign-up page”.
+
+Each renders the approved spinner and message with one inline **Continue** link,
+then automatically navigates to that same link URL after approximately 900 ms
+using `window.location.replace()`. Continue also works without JavaScript.
+Reduced motion stops spinner animation without delaying navigation.
+
+Place one redirect purpose on a dedicated page using a normal shortcode or
+Elementor's standard Shortcode widget. The component inherits the website font.
+Your theme or Elementor container controls background, width, padding, positioning,
+and height; the shortcode adds no outer page layout. Preview the design in the
+standalone prototype rather than adding a preview attribute to production shortcodes.
+
 ## Appearance
 
 **Settings → Shipxio Connect → Appearance** has two settings:

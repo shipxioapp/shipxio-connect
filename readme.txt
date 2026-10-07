@@ -43,6 +43,16 @@ Leaving the option out keeps the built-in title and description, so nothing chan
 
 The shortcodes work with normal WordPress content and can also be placed inside Elementor's standard Shortcode widget. Elementor is not required.
 
+Two redirect shortcodes are also available:
+
+* `[shipxio_connect_sign_in]` shows "Opening your dashboard" and opens the configured Sign-in URL.
+* `[shipxio_connect_sign_up]` shows "Opening your sign-up page" and opens the configured Sign-up URL.
+
+Configure both complete HTTP or HTTPS URLs under Settings > Shipxio Connect > Redirects.
+Blank destinations disable the corresponding shortcode. Invalid values retain the previous setting.
+Each redirect displays a spinner and one inline Continue link, then opens the same destination after approximately 900 ms using window.location.replace().
+Place one redirect purpose on its own page. The shortcode inherits your website font; your theme or Elementor controls the surrounding layout, background, width, padding, and height.
+
 Shipxio Connect does not add a heading or branding of its own, so your page keeps its own title and introduction.
 
 The settings screen also offers two appearance settings, a primary color and a border radius, so the calculator and rates can match your website. They apply to the plugin output only and never change the rest of your website.
@@ -153,6 +163,9 @@ These settings apply only to the Shipxio Connect output. They do not change your
 Yes. Shipxio Connect inherits the host website's font family while retaining its own layout, sizing, spacing, and component styling.
 
 == Changelog ==
+
+= 1.0.13 =
+* Maintenance and improvements.
 
 = 1.0.12 =
 * Maintenance and improvements.

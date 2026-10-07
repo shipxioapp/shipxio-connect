@@ -28,6 +28,8 @@ function shipxio_connect_delete_site_data()
         'shipxio_connect_border_radius',
         'shipxio_connect_button_padding',
         'shipxio_connect_button_text_color',
+        'shipxio_connect_sign_in_url',
+        'shipxio_connect_sign_up_url',
     );
 
     foreach ($options as $option) {

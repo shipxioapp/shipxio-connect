@@ -11,11 +11,14 @@ function shipxio_connect_register_assets()
     wp_register_style('shipxio-connect-vars', $url . 'assets/css/var.css', array(), SHIPXIO_CONNECT_VERSION);
     wp_register_style('shipxio-connect', $url . 'assets/css/app.css', array('shipxio-connect-vars'), SHIPXIO_CONNECT_VERSION);
     wp_register_script('shipxio-connect', $url . 'assets/js/app.js', array(), SHIPXIO_CONNECT_VERSION, array('in_footer' => true));
+    wp_register_style('shipxio-connect-redirect', $url . 'assets/css/redirect.css', array('shipxio-connect-vars'), SHIPXIO_CONNECT_VERSION);
+    wp_register_script('shipxio-connect-redirect', $url . 'assets/js/redirect.js', array(), SHIPXIO_CONNECT_VERSION, array('in_footer' => true));
 
     // The appearance settings override the plugin's scoped design tokens only.
     $appearance = shipxio_connect_appearance_css();
     if ('' !== $appearance) {
         wp_add_inline_style('shipxio-connect', $appearance);
+        wp_add_inline_style('shipxio-connect-redirect', str_replace('.shipxio-connect{', '.shipxio-connect-redirect{', $appearance));
     }
 
     wp_localize_script('shipxio-connect', 'shipxioConnectText', array(
@@ -170,6 +173,34 @@ function shipxio_connect_show_intro($atts, $tag)
     }
 
     return wp_validate_boolean($value);
+}
+
+function shipxio_connect_render_sign_in_shortcode($atts = array(), $content = null)
+{
+    return shipxio_connect_render_redirect('sign_in');
+}
+
+function shipxio_connect_render_sign_up_shortcode($atts = array(), $content = null)
+{
+    return shipxio_connect_render_redirect('sign_up');
+}
+
+/** Redirect destinations come exclusively from the administrator's settings. */
+function shipxio_connect_render_redirect($purpose)
+{
+    $redirect_url = shipxio_connect_redirect_url($purpose);
+    if ('' === $redirect_url) {
+        return '';
+    }
+    $heading = 'sign_in' === $purpose
+        ? __('Opening your dashboard', 'shipxio-connect')
+        : __('Opening your sign-up page', 'shipxio-connect');
+
+    wp_enqueue_style('shipxio-connect-redirect');
+    wp_enqueue_script('shipxio-connect-redirect');
+    ob_start();
+    include __DIR__ . '/../templates/redirect.php';
+    return (string) ob_get_clean();
 }
 
 function shipxio_connect_render_shortcode($atts = array(), $content = null, $tag = 'shipxio_connect')

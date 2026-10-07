@@ -5,7 +5,8 @@
  * Shared Shipxio design tokens used by the Shipxio Connect prototype.
  */
 
-.shipxio-connect {
+.shipxio-connect,
+.shipxio-connect-redirect {
     /* =======================
        Fonts
     ======================= */
