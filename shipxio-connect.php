@@ -30,6 +30,10 @@ define('SHIPXIO_CONNECT_DEFAULT_BUTTON_PADDING', 12);
 define('SHIPXIO_CONNECT_MIN_BUTTON_PADDING', 6);
 define('SHIPXIO_CONNECT_MAX_BUTTON_PADDING', 24);
 define('SHIPXIO_CONNECT_DEFAULT_BUTTON_TEXT_COLOR', '#ffffff');
+// Blank redirect colors preserve the approved palette and transparent background.
+define('SHIPXIO_CONNECT_DEFAULT_REDIRECT_SPINNER_COLOR', '');
+define('SHIPXIO_CONNECT_DEFAULT_REDIRECT_TEXT_COLOR', '');
+define('SHIPXIO_CONNECT_DEFAULT_REDIRECT_LINK_COLOR', '');
 
 require_once __DIR__ . '/includes/client.php';
 require_once __DIR__ . '/includes/rest.php';

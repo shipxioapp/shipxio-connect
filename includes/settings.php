@@ -53,6 +53,15 @@ function shipxio_connect_register_settings()
         ));
     }
 
+    foreach (array('text', 'link', 'spinner') as $kind) {
+        register_setting('shipxio_connect', 'shipxio_connect_redirect_' . $kind . '_color', array(
+            'type'              => 'string',
+            'sanitize_callback' => 'shipxio_connect_sanitize_redirect_' . $kind . '_color',
+            'default'           => shipxio_connect_redirect_color_default($kind),
+            'show_in_rest'      => false,
+        ));
+    }
+
     add_settings_section('shipxio_connect_redirects', '', '__return_false', 'shipxio-connect');
     foreach (array('sign_in' => __('Sign-in URL', 'shipxio-connect'), 'sign_up' => __('Sign-up URL', 'shipxio-connect')) as $purpose => $label) {
         add_settings_field(
@@ -62,6 +71,17 @@ function shipxio_connect_register_settings()
             'shipxio-connect',
             'shipxio_connect_redirects',
             array('label_for' => 'shipxio-connect-' . $purpose . '-url', 'purpose' => $purpose)
+        );
+    }
+
+    foreach (array('text' => __('Text color', 'shipxio-connect'), 'link' => __('Continue link color', 'shipxio-connect'), 'spinner' => __('Spinner color', 'shipxio-connect')) as $kind => $label) {
+        add_settings_field(
+            'shipxio_connect_redirect_' . $kind . '_color',
+            $label,
+            'shipxio_connect_render_redirect_color_field',
+            'shipxio-connect',
+            'shipxio_connect_redirects',
+            array('label_for' => 'shipxio-connect-redirect-' . $kind . '-color', 'kind' => $kind)
         );
     }
 
@@ -117,6 +137,64 @@ function shipxio_connect_register_settings()
         'shipxio_connect_appearance',
         array('label_for' => 'shipxio-connect-button-text-color')
     );
+}
+
+function shipxio_connect_redirect_color_default($kind)
+{
+    $defaults = array(
+        'spinner'    => SHIPXIO_CONNECT_DEFAULT_REDIRECT_SPINNER_COLOR,
+        'text'       => SHIPXIO_CONNECT_DEFAULT_REDIRECT_TEXT_COLOR,
+        'link'       => SHIPXIO_CONNECT_DEFAULT_REDIRECT_LINK_COLOR,
+    );
+    return $defaults[$kind] ?? '';
+}
+
+/** The redirect colors never override the calculator/rates appearance tokens. */
+function shipxio_connect_redirect_color($kind)
+{
+    $default = shipxio_connect_redirect_color_default($kind);
+    $value = get_option('shipxio_connect_redirect_' . $kind . '_color', $default);
+    $color = is_scalar($value) ? sanitize_hex_color((string) $value) : null;
+    return null === $color || '' === $color ? $default : strtolower($color);
+}
+
+function shipxio_connect_sanitize_redirect_color($value, $kind)
+{
+    // Clearing a color restores the approved defaults.
+    if (is_string($value) && '' === trim($value)) {
+        return '';
+    }
+    $color = is_scalar($value) ? sanitize_hex_color(trim((string) $value)) : null;
+    if (null === $color || '' === $color) {
+        add_settings_error('shipxio_connect_redirect_' . $kind . '_color', 'invalid_redirect_color', __('Enter a valid hex color, such as #636363.', 'shipxio-connect'));
+        return shipxio_connect_redirect_color($kind);
+    }
+    return strtolower($color);
+}
+
+function shipxio_connect_sanitize_redirect_spinner_color($value)
+{
+    return shipxio_connect_sanitize_redirect_color($value, 'spinner');
+}
+
+function shipxio_connect_sanitize_redirect_text_color($value)
+{
+    return shipxio_connect_sanitize_redirect_color($value, 'text');
+}
+
+function shipxio_connect_sanitize_redirect_link_color($value)
+{
+    return shipxio_connect_sanitize_redirect_color($value, 'link');
+}
+
+function shipxio_connect_render_redirect_color_field($args)
+{
+    $kind = $args['kind'];
+    $default = shipxio_connect_redirect_color_default($kind);
+    ?>
+    <input type="text" class="shipxio-connect-color-field regular-text code" id="<?php echo esc_attr($args['label_for']); ?>" name="<?php echo esc_attr('shipxio_connect_redirect_' . $kind . '_color'); ?>" value="<?php echo esc_attr(shipxio_connect_redirect_color($kind)); ?>" data-default-color="<?php echo esc_attr($default); ?>" maxlength="7">
+    <p class="description"><?php echo esc_html__('Applies only to this redirect element. Leave blank to use the original colors. The component stays transparent and inherits your website font.', 'shipxio-connect'); ?></p>
+    <?php
 }
 
 /** Redirects accept complete HTTP(S) URLs, including paths and queries. */

@@ -20,6 +20,16 @@ function shipxio_connect_register_assets()
         wp_add_inline_style('shipxio-connect', $appearance);
         wp_add_inline_style('shipxio-connect-redirect', str_replace('.shipxio-connect{', '.shipxio-connect-redirect{', $appearance));
     }
+    $redirect_colors = '';
+    foreach (array('text', 'link', 'spinner') as $kind) {
+        $color = shipxio_connect_redirect_color($kind);
+        if ('' !== $color) {
+            $redirect_colors .= '--sxc-redirect-' . $kind . '-color:' . $color . ';';
+        }
+    }
+    if ('' !== $redirect_colors) {
+        wp_add_inline_style('shipxio-connect-redirect', '.shipxio-connect-redirect{' . $redirect_colors . '}');
+    }
 
     wp_localize_script('shipxio-connect', 'shipxioConnectText', array(
         'weight' => __('Weight', 'shipxio-connect'),

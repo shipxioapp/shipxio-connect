@@ -49,6 +49,14 @@ Use complete trusted HTTP or HTTPS destinations; paths and queries are supported
 Invalid values retain the previous setting. Blank values disable the corresponding
 shortcode. Destinations cannot be supplied through shortcode attributes.
 
+**Text color**, **Continue link color**, and **Spinner color** use the WordPress
+color picker and accept hex colors. Text color applies to the heading and message;
+link color to Continue and its focus outline; spinner color to the spinner's rotating
+segment. Invalid colors retain the saved value. Leave colors blank (the default)
+to preserve the approved palette. Clearing a custom color restores that appearance.
+The component always stays transparent, so the host/Elementor background shows
+through. These settings do not affect the calculator, rates, host fonts, or page layout.
+
 - `[shipxio_connect_sign_in]` shows “Opening your dashboard”.
 - `[shipxio_connect_sign_up]` shows “Opening your sign-up page”.
 

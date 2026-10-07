@@ -20,7 +20,7 @@
     height: 2rem;
     margin: 0 auto var(--sxc-pad-xl);
     border: 3px solid var(--sxc-brd-l);
-    border-top-color: var(--sxc-clr-pri);
+    border-top-color: var(--sxc-redirect-spinner-color, var(--sxc-clr-pri));
     border-radius: 50%;
     animation: shipxio-connect-redirect-spin 0.8s linear infinite;
 }
@@ -28,7 +28,7 @@
 .shipxio-connect-redirect .shipxio-connect-redirect__heading {
     margin: 0;
     padding: 0;
-    color: var(--sxc-clr-acc-a);
+    color: var(--sxc-redirect-text-color, var(--sxc-clr-acc-a));
     font-family: inherit;
     font-size: var(--sxc-fs-h5);
     font-weight: var(--sxc-fw-sb);
@@ -39,7 +39,7 @@
 .shipxio-connect-redirect .shipxio-connect-redirect__message {
     margin: var(--sxc-pad-sm) 0 0;
     padding: 0;
-    color: var(--sxc-clr-gray-d);
+    color: var(--sxc-redirect-text-color, var(--sxc-clr-gray-d));
     font-family: inherit;
     font-size: var(--sxc-fs-sm);
     font-weight: var(--sxc-fw-n);
@@ -50,7 +50,7 @@
     display: inline;
     margin: 0;
     padding: 0;
-    color: var(--sxc-clr-sec);
+    color: var(--sxc-redirect-link-color, var(--sxc-clr-sec));
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
@@ -59,11 +59,11 @@
 }
 
 .shipxio-connect-redirect .shipxio-connect-redirect__continue:hover {
-    color: var(--sxc-clr-acc-a);
+    color: var(--sxc-redirect-link-color, var(--sxc-clr-acc-a));
 }
 
 .shipxio-connect-redirect .shipxio-connect-redirect__continue:focus-visible {
-    outline: 2px solid var(--sxc-clr-sec);
+    outline: 2px solid var(--sxc-redirect-link-color, var(--sxc-clr-sec));
     outline-offset: 3px;
     border-radius: 2px;
 }

@@ -30,6 +30,9 @@ function shipxio_connect_delete_site_data()
         'shipxio_connect_button_text_color',
         'shipxio_connect_sign_in_url',
         'shipxio_connect_sign_up_url',
+        'shipxio_connect_redirect_text_color',
+        'shipxio_connect_redirect_spinner_color',
+        'shipxio_connect_redirect_link_color',
     );
 
     foreach ($options as $option) {

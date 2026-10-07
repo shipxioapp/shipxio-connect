@@ -50,6 +50,7 @@ Two redirect shortcodes are also available:
 
 Configure both complete HTTP or HTTPS URLs under Settings > Shipxio Connect > Redirects.
 Blank destinations disable the corresponding shortcode. Invalid values retain the previous setting.
+The Redirects section also includes Text color, Continue link color, and Spinner color. These hex-color settings apply only to the heading/message, inline Continue link, and spinner's rotating segment respectively. They do not change the calculator, rates, host font, or page layout. Invalid colors retain the saved value. Blank colors (the default) preserve the approved palette; clearing a custom color restores it. The component always stays transparent so the host/Elementor background shows through.
 Each redirect displays a spinner and one inline Continue link, then opens the same destination after approximately 900 ms using window.location.replace().
 Place one redirect purpose on its own page. The shortcode inherits your website font; your theme or Elementor controls the surrounding layout, background, width, padding, and height.
 
@@ -163,6 +164,9 @@ These settings apply only to the Shipxio Connect output. They do not change your
 Yes. Shipxio Connect inherits the host website's font family while retaining its own layout, sizing, spacing, and component styling.
 
 == Changelog ==
+
+= 1.0.14 =
+* Maintenance and improvements.
 
 = 1.0.13 =
 * Maintenance and improvements.
