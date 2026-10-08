@@ -15,7 +15,8 @@ if (! defined('ABSPATH')) {
             <h1 class="shipxio-connect-redirect__heading"><?php echo esc_html($heading); ?></h1>
             <p class="shipxio-connect-redirect__message">
                 <?php echo esc_html__('Please wait a moment while we take you there.', 'shipxio-connect'); ?>
-                <br>
+            </p>
+            <p class="shipxio-connect-redirect__fallback">
                 <?php
                 printf(
                     /* translators: %s: the linked word Continue. */

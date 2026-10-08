@@ -41,6 +41,16 @@
     padding: 0;
     color: var(--sxc-redirect-text-color, var(--sxc-clr-gray-d));
     font-family: inherit;
+    font-size: var(--sxc-fs-body);
+    font-weight: var(--sxc-fw-n);
+    line-height: var(--sxc-lh-body);
+}
+
+.shipxio-connect-redirect .shipxio-connect-redirect__fallback {
+    margin: var(--sxc-pad-sm) 0 0;
+    padding: 0;
+    color: var(--sxc-redirect-subtext-color, var(--sxc-clr-gray-d));
+    font-family: inherit;
     font-size: var(--sxc-fs-sm);
     font-weight: var(--sxc-fw-n);
     line-height: var(--sxc-lh-sm);

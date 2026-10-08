@@ -53,7 +53,7 @@ function shipxio_connect_register_settings()
         ));
     }
 
-    foreach (array('text', 'link', 'spinner') as $kind) {
+    foreach (array('text', 'subtext', 'link', 'spinner') as $kind) {
         register_setting('shipxio_connect', 'shipxio_connect_redirect_' . $kind . '_color', array(
             'type'              => 'string',
             'sanitize_callback' => 'shipxio_connect_sanitize_redirect_' . $kind . '_color',
@@ -74,7 +74,7 @@ function shipxio_connect_register_settings()
         );
     }
 
-    foreach (array('text' => __('Text color', 'shipxio-connect'), 'link' => __('Continue link color', 'shipxio-connect'), 'spinner' => __('Spinner color', 'shipxio-connect')) as $kind => $label) {
+    foreach (array('text' => __('Redirect Text Color', 'shipxio-connect'), 'subtext' => __('Redirect Subtext Color', 'shipxio-connect'), 'link' => __('Redirect Link Color', 'shipxio-connect'), 'spinner' => __('Spinner color', 'shipxio-connect')) as $kind => $label) {
         add_settings_field(
             'shipxio_connect_redirect_' . $kind . '_color',
             $label,
@@ -144,6 +144,7 @@ function shipxio_connect_redirect_color_default($kind)
     $defaults = array(
         'spinner'    => SHIPXIO_CONNECT_DEFAULT_REDIRECT_SPINNER_COLOR,
         'text'       => SHIPXIO_CONNECT_DEFAULT_REDIRECT_TEXT_COLOR,
+        'subtext'    => SHIPXIO_CONNECT_DEFAULT_REDIRECT_SUBTEXT_COLOR,
         'link'       => SHIPXIO_CONNECT_DEFAULT_REDIRECT_LINK_COLOR,
     );
     return $defaults[$kind] ?? '';
@@ -185,6 +186,11 @@ function shipxio_connect_sanitize_redirect_text_color($value)
 function shipxio_connect_sanitize_redirect_link_color($value)
 {
     return shipxio_connect_sanitize_redirect_color($value, 'link');
+}
+
+function shipxio_connect_sanitize_redirect_subtext_color($value)
+{
+    return shipxio_connect_sanitize_redirect_color($value, 'subtext');
 }
 
 function shipxio_connect_render_redirect_color_field($args)
