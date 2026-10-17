@@ -56,7 +56,7 @@ Place one redirect purpose on its own page. The shortcode inherits your website 
 
 Shipxio Connect does not add a heading or branding of its own, so your page keeps its own title and introduction.
 
-The settings screen also offers two appearance settings, a primary color and a border radius, so the calculator and rates can match your website. They apply to the plugin output only and never change the rest of your website.
+The settings screen also offers appearance settings for the primary color and independent button, form/input, and container border radii, so the calculator and rates can match your website. They apply to the plugin output only and never change the rest of your website.
 
 == Installation ==
 
@@ -72,7 +72,7 @@ To display only one part of Shipxio Connect, use `[shipxio_connect_calculator]` 
 
 To supply your own heading instead of the built-in one, add `show_intro="false"` to any of the shortcodes.
 
-Optionally, set the primary color and border radius under Appearance on the same settings screen.
+Optionally, set the primary color and independent border radii under Appearance on the same settings screen.
 
 The Shipxio base URL is supplied directly by Shipxio. You do not need to add or edit API endpoint paths.
 
@@ -155,7 +155,7 @@ No. Shipxio remains authoritative for shipping rates, estimates, HS Code suggest
 
 = Can I change the plugin's colors? =
 
-Yes. Settings > Shipxio Connect has four appearance settings: a primary color, a border radius, a button padding, and a button text color. The primary color is used for the calculate button, focus rings, and highlights. The border radius sets the corner rounding for fields, buttons, cards, and tables, from 0 to 24 pixels. The button padding sets how much space sits inside the calculate button, from 6 to 24 pixels. The button text color sets the label on that button.
+Yes. Settings > Shipxio Connect has six appearance settings: a primary color, independent button, form/input, and container border radii, a button padding, and a button text color. The primary color is used for the calculate button, focus rings, and highlights. Each radius accepts 0 to 24 pixels and controls only its corresponding elements. Containers retain their original corner proportions. Existing saved border-radius values are inherited by all three controls until saved independently. The button padding sets how much space sits inside the calculate button, from 6 to 24 pixels. The button text color sets the label on that button.
 
 These settings apply only to the Shipxio Connect output. They do not change your theme, and the plugin does not accept custom CSS or HTML.
 
@@ -164,6 +164,9 @@ These settings apply only to the Shipxio Connect output. They do not change your
 Yes. Shipxio Connect inherits the host website's font family while retaining its own layout, sizing, spacing, and component styling.
 
 == Changelog ==
+
+= 1.0.16 =
+* Maintenance and improvements.
 
 = 1.0.15 =
 * Maintenance and improvements.

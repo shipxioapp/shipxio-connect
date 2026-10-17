@@ -168,6 +168,7 @@
     /* The border color stays as WordPress draws it, for contrast parity. */
     min-height: 36px;
     border-radius: 8px;
+    font-size: 16px;
 }
 
 .shipxio-connect-admin .form-table input:focus {
@@ -202,14 +203,23 @@
     font-size: 13px;
 }
 
+/* Keep text-entry controls readable when focused on mobile. */
+.shipxio-connect-admin select,
+.shipxio-connect-admin textarea,
+.shipxio-connect-admin [contenteditable="true"],
+.shipxio-connect-admin [contenteditable="plaintext-only"] {
+    font-size: 16px;
+}
+
 /* Match the core color picker to the rounded fields around it. */
 .shipxio-connect-admin .wp-color-result.button,
 .shipxio-connect-admin .wp-picker-input-wrap .button {
     border-radius: 8px;
 }
 
-.shipxio-connect-admin .wp-picker-container .wp-color-picker {
+.shipxio-connect-admin .wp-picker-container input[type="text"].wp-color-picker {
     border-radius: 8px;
+    font-size: 16px;
 }
 /* ======================================================
    Credential state
@@ -260,7 +270,7 @@
     margin: 4px 0 0;
     padding: 16px 18px;
     border: 1px solid var(--sxc-border-light);
-    border-radius: 10px;
+    border-radius: var(--shipxio-connect-preview-container-radius, 16px);
     background: var(--sxc-surface-light);
 }
 
@@ -285,14 +295,14 @@
     width: 190px;
     height: 36px;
     border: 1px solid var(--shipxio-connect-preview-color, var(--sxc-primary));
-    border-radius: var(--shipxio-connect-preview-radius, 8px);
+    border-radius: var(--shipxio-connect-preview-form-radius, 8px);
     background: var(--sxc-white);
     box-shadow: 0 0 0 3px rgba(var(--sxc-primary-rgb), 0.12);
 }
 
 .shipxio-connect-admin .shipxio-connect-preview-button {
     padding: var(--shipxio-connect-preview-pad-y, 12px) var(--shipxio-connect-preview-pad-x, 28px);
-    border-radius: var(--shipxio-connect-preview-radius, 8px);
+    border-radius: var(--shipxio-connect-preview-button-radius, 8px);
     background: var(--shipxio-connect-preview-color, var(--sxc-primary));
     color: var(--shipxio-connect-preview-text, var(--sxc-white));
     font-size: 13px;

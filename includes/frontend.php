@@ -96,11 +96,21 @@ function shipxio_connect_appearance_css()
             . '--sxc-clr-sec-rgb:' . shipxio_connect_hex_color_rgb($hover) . ';';
     }
 
-    $radius = shipxio_connect_border_radius();
+    $radius = shipxio_connect_border_radius('container');
     if (SHIPXIO_CONNECT_DEFAULT_RADIUS !== $radius) {
         $declarations .= '--sxc-brd-sm:' . $radius . 'px;'
             . '--sxc-brd-md:' . (int) round($radius * 1.5) . 'px;'
             . '--sxc-brd-lg:' . ($radius * 2) . 'px;';
+    }
+
+    foreach (array('button', 'form') as $kind) {
+        $radius = shipxio_connect_border_radius($kind);
+        if (SHIPXIO_CONNECT_DEFAULT_RADIUS !== $radius) {
+            $declarations .= '--sxc-brd-' . $kind . ':' . $radius . 'px;';
+            if ('form' === $kind) {
+                $declarations .= '--sxc-brd-form-popup:' . (int) round($radius * 1.5) . 'px;';
+            }
+        }
     }
 
     // One setting drives both axes: the horizontal padding tracks the

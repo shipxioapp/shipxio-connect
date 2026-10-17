@@ -51,8 +51,19 @@
 }
 
 .shipxio-connect button,
-.shipxio-connect input {
+.shipxio-connect input,
+.shipxio-connect select,
+.shipxio-connect textarea {
     font: inherit;
+}
+
+/* Pixel units keep text-entry controls at 16px regardless of the host root size. */
+.shipxio-connect input:not([type="hidden"]):not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="image"]),
+.shipxio-connect select,
+.shipxio-connect textarea,
+.shipxio-connect [contenteditable="true"],
+.shipxio-connect [contenteditable="plaintext-only"] {
+    font-size: 16px;
 }
 
 .shipxio-connect button {
@@ -177,15 +188,16 @@
 }
 
 .shipxio-connect .field input,
-.shipxio-connect .field select {
+.shipxio-connect .field select,
+.shipxio-connect .field textarea {
     width: 100%;
     min-height: 52px;
     padding: var(--sxc-pad-md) var(--sxc-pad-lg);
     border: 1px solid var(--sxc-brd-l);
-    border-radius: var(--sxc-brd-sm);
+    border-radius: var(--sxc-brd-form);
     background: var(--sxc-clr-wh);
     color: var(--sxc-clr-acc-a);
-    font-size: var(--sxc-fs-xs);
+    font-size: 16px;
     outline: none;
     transition:
         border-color 160ms ease,
@@ -238,7 +250,7 @@
     min-height: 46px;
     padding: var(--sxc-btn-pad);
     border: 1px solid var(--sxc-clr-pri);
-    border-radius: var(--sxc-brd-sm);
+    border-radius: var(--sxc-brd-button);
     background: var(--sxc-clr-pri);
     color: var(--sxc-clr-btn-text);
     font-size: var(--sxc-fs-xs);
@@ -282,7 +294,7 @@
     overflow-y: auto;
     max-height: 320px;
     border: 1px solid var(--sxc-brd-l);
-    border-radius: var(--sxc-brd-md);
+    border-radius: var(--sxc-brd-form-popup);
     background: var(--sxc-clr-wh);
     box-shadow: var(--sxc-shd-hv-md);
 }
@@ -347,7 +359,7 @@
     gap: var(--sxc-pad-md);
     padding: var(--sxc-pad-md);
     border: 1px solid var(--sxc-brd-l);
-    border-radius: var(--sxc-brd-sm);
+    border-radius: var(--sxc-brd-form);
     background: var(--sxc-surface-l);
 }
 
@@ -379,7 +391,7 @@
     min-height: 32px;
     padding: 0 var(--sxc-pad-md);
     border: 1px solid var(--sxc-brd-l);
-    border-radius: var(--sxc-brd-sm);
+    border-radius: var(--sxc-brd-button);
     background: var(--sxc-clr-wh);
     color: var(--sxc-clr-gray-d);
     font-size: var(--sxc-fs-xxs);

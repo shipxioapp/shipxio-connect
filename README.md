@@ -77,12 +77,16 @@ standalone prototype rather than adding a preview attribute to production shortc
 
 ## Appearance
 
-**Settings → Shipxio Connect → Appearance** has two settings:
+**Settings → Shipxio Connect → Appearance** includes these appearance settings:
 
 - **Primary color** — a hex color used for the calculate button, focus rings, and highlights. Defaults to `#2A7FFF`.
-- **Border radius** — the corner rounding of fields, buttons, cards, and tables, from `0` to `24` pixels. Defaults to `8`.
+- **Button border radius**: corner rounding for the calculate and clear buttons.
+- **Form/input border radius**: corner rounding for fields, suggestions, and the selected item.
+- **Container border radius**: base corner rounding for sections, cards, notices, and tables; larger corners retain their original proportions.
 
-Both are applied as CSS custom properties scoped to `.shipxio-connect`, so they affect the plugin output only and never the host theme. Custom CSS, custom HTML, and font-family selection are deliberately not supported; the plugin keeps inheriting the host website font.
+Each radius accepts `0` to `24` pixels and defaults to `8`. Existing saved border-radius values are inherited by all three controls until they are saved independently.
+
+Appearance settings are applied as CSS custom properties scoped to `.shipxio-connect`, so they affect the plugin output only and never the host theme. Custom CSS, custom HTML, and font-family selection are deliberately not supported; the plugin keeps inheriting the host website font.
 
 ## Elementor
 

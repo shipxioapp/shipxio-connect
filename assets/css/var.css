@@ -160,6 +160,10 @@
        Radius
     ======================= */
 
+    --sxc-brd-button: 0.5rem;
+    --sxc-brd-form: 0.5rem;
+    --sxc-brd-form-popup: 0.75rem;
+    /* Container sizes preserve the original corner proportions. */
     --sxc-brd-sm: 0.5rem;
     --sxc-brd-md: 0.75rem;
     --sxc-brd-lg: 1rem;

@@ -17,7 +17,6 @@
 
     function initPreview() {
         const preview = document.getElementById('shipxio-connect-preview');
-        const radius = document.getElementById('shipxio-connect-border-radius');
         const padding = document.getElementById('shipxio-connect-button-padding');
 
         if (!preview) {
@@ -49,24 +48,24 @@
             }
         };
 
-        const applyRadius = () => {
+        ['button', 'form', 'container'].forEach((kind) => {
+            const radius = document.getElementById('shipxio-connect-' + kind + '-border-radius');
             if (!radius) {
                 return;
             }
-
-            const parsed = parseInt(radius.value, 10);
-            const min = parseInt(radius.min, 10) || 0;
-            const max = parseInt(radius.max, 10) || 24;
-
-            if (Number.isFinite(parsed) && parsed >= min && parsed <= max) {
-                preview.style.setProperty('--shipxio-connect-preview-radius', parsed + 'px');
-            }
-        };
-
-        if (radius) {
+            const applyRadius = () => {
+                const value = radius.value.trim();
+                const parsed = Number(value);
+                const min = Number(radius.min);
+                const max = Number(radius.max);
+                if (value !== '' && Number.isInteger(parsed) && parsed >= min && parsed <= max) {
+                    const scale = kind === 'container' ? 2 : 1;
+                    preview.style.setProperty('--shipxio-connect-preview-' + kind + '-radius', (parsed * scale) + 'px');
+                }
+            };
             radius.addEventListener('input', applyRadius);
             radius.addEventListener('change', applyRadius);
-        }
+        });
 
         if (padding) {
             padding.addEventListener('input', applyPadding);

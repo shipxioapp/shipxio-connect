@@ -25,12 +25,16 @@ function shipxio_connect_register_settings()
         'default'           => SHIPXIO_CONNECT_DEFAULT_COLOR,
         'show_in_rest'      => false,
     ));
-    register_setting('shipxio_connect', 'shipxio_connect_border_radius', array(
-        'type'              => 'integer',
-        'sanitize_callback' => 'shipxio_connect_sanitize_border_radius',
-        'default'           => SHIPXIO_CONNECT_DEFAULT_RADIUS,
-        'show_in_rest'      => false,
-    ));
+    foreach (array('button', 'form', 'container') as $kind) {
+        register_setting('shipxio_connect', 'shipxio_connect_' . $kind . '_border_radius', array(
+            'type'              => 'integer',
+            'sanitize_callback' => static function ($value) use ($kind) {
+                return shipxio_connect_sanitize_border_radius($value, $kind);
+            },
+            'default'           => shipxio_connect_border_radius(),
+            'show_in_rest'      => false,
+        ));
+    }
     register_setting('shipxio_connect', 'shipxio_connect_button_padding', array(
         'type'              => 'integer',
         'sanitize_callback' => 'shipxio_connect_sanitize_button_padding',
@@ -113,14 +117,20 @@ function shipxio_connect_register_settings()
         'shipxio_connect_appearance',
         array('label_for' => 'shipxio-connect-primary-color')
     );
-    add_settings_field(
-        'shipxio_connect_border_radius',
-        __('Border radius', 'shipxio-connect'),
-        'shipxio_connect_render_border_radius_field',
-        'shipxio-connect',
-        'shipxio_connect_appearance',
-        array('label_for' => 'shipxio-connect-border-radius')
-    );
+    foreach (array(
+        'button'    => __('Button border radius', 'shipxio-connect'),
+        'form'      => __('Form/input border radius', 'shipxio-connect'),
+        'container' => __('Container border radius', 'shipxio-connect'),
+    ) as $kind => $label) {
+        add_settings_field(
+            'shipxio_connect_' . $kind . '_border_radius',
+            $label,
+            'shipxio_connect_render_border_radius_field',
+            'shipxio-connect',
+            'shipxio_connect_appearance',
+            array('label_for' => 'shipxio-connect-' . $kind . '-border-radius', 'kind' => $kind)
+        );
+    }
     add_settings_field(
         'shipxio_connect_button_padding',
         __('Button padding', 'shipxio-connect'),
@@ -299,7 +309,7 @@ function shipxio_connect_sanitize_primary_color($value)
     return strtolower($color);
 }
 
-function shipxio_connect_sanitize_border_radius($value)
+function shipxio_connect_sanitize_border_radius($value, $kind = '')
 {
     $radius = is_scalar($value)
         ? filter_var(trim((string) $value), FILTER_VALIDATE_INT, array('options' => array(
@@ -308,13 +318,13 @@ function shipxio_connect_sanitize_border_radius($value)
         )))
         : false;
     if (false === $radius) {
-        add_settings_error('shipxio_connect_border_radius', 'invalid_radius', sprintf(
+        add_settings_error('shipxio_connect_' . ('' === $kind ? '' : $kind . '_') . 'border_radius', 'invalid_radius', sprintf(
             /* translators: 1: smallest allowed border radius, 2: largest allowed border radius. */
             __('Enter a border radius between %1$d and %2$d pixels.', 'shipxio-connect'),
             SHIPXIO_CONNECT_MIN_RADIUS,
             SHIPXIO_CONNECT_MAX_RADIUS
         ));
-        return shipxio_connect_border_radius();
+        return shipxio_connect_border_radius($kind);
     }
     return $radius;
 }
@@ -327,15 +337,20 @@ function shipxio_connect_primary_color()
     return null === $color || '' === $color ? SHIPXIO_CONNECT_DEFAULT_COLOR : strtolower($color);
 }
 
-/** The stored border radius in pixels, clamped to the supported range. */
-function shipxio_connect_border_radius()
+/**
+ * The stored border radius in pixels, clamped to the supported range.
+ * Missing independent settings inherit the legacy value without deleting it.
+ */
+function shipxio_connect_border_radius($kind = '')
 {
-    $radius = filter_var(get_option('shipxio_connect_border_radius', SHIPXIO_CONNECT_DEFAULT_RADIUS), FILTER_VALIDATE_INT, array('options' => array(
+    $default = '' === $kind ? SHIPXIO_CONNECT_DEFAULT_RADIUS : shipxio_connect_border_radius();
+    $option = 'shipxio_connect_' . ('' === $kind ? '' : $kind . '_') . 'border_radius';
+    $radius = filter_var(get_option($option, $default), FILTER_VALIDATE_INT, array('options' => array(
         'min_range' => SHIPXIO_CONNECT_MIN_RADIUS,
         'max_range' => SHIPXIO_CONNECT_MAX_RADIUS,
     )));
 
-    return false === $radius ? SHIPXIO_CONNECT_DEFAULT_RADIUS : $radius;
+    return false === $radius ? $default : $radius;
 }
 
 function shipxio_connect_register_settings_page()
@@ -421,22 +436,29 @@ function shipxio_connect_render_primary_color_field()
     <?php
 }
 
-function shipxio_connect_render_border_radius_field()
+function shipxio_connect_render_border_radius_field($args)
 {
+    $kind = $args['kind'];
+    $descriptions = array(
+        'button'    => __('Applies only to the calculate and clear buttons.', 'shipxio-connect'),
+        'form'      => __('Applies only to form fields, suggestions, and the selected item.', 'shipxio-connect'),
+        'container' => __('Applies only to sections, cards, notices, and tables. Larger corners keep their existing proportions.', 'shipxio-connect'),
+    );
     ?>
     <span class="shipxio-connect-radius-control">
-        <input type="number" class="small-text" id="shipxio-connect-border-radius" name="shipxio_connect_border_radius" value="<?php echo esc_attr((string) shipxio_connect_border_radius()); ?>" min="<?php echo esc_attr((string) SHIPXIO_CONNECT_MIN_RADIUS); ?>" max="<?php echo esc_attr((string) SHIPXIO_CONNECT_MAX_RADIUS); ?>" step="1">
+        <input type="number" class="small-text" id="<?php echo esc_attr($args['label_for']); ?>" name="<?php echo esc_attr('shipxio_connect_' . $kind . '_border_radius'); ?>" value="<?php echo esc_attr((string) shipxio_connect_border_radius($kind)); ?>" min="<?php echo esc_attr((string) SHIPXIO_CONNECT_MIN_RADIUS); ?>" max="<?php echo esc_attr((string) SHIPXIO_CONNECT_MAX_RADIUS); ?>" step="1">
         <span class="shipxio-connect-unit"><?php echo esc_html__('px', 'shipxio-connect'); ?></span>
     </span>
     <p class="description">
         <?php
         printf(
             /* translators: 1: smallest allowed border radius, 2: largest allowed border radius, 3: default border radius. */
-            esc_html__('Corner rounding for fields, buttons, cards, and tables, between %1$d and %2$d pixels. Use %1$d for square corners. Defaults to %3$d.', 'shipxio-connect'),
+            esc_html__('Base corner rounding between %1$d and %2$d pixels. Use %1$d for square corners. Defaults to %3$d.', 'shipxio-connect'),
             (int) SHIPXIO_CONNECT_MIN_RADIUS,
             (int) SHIPXIO_CONNECT_MAX_RADIUS,
             (int) SHIPXIO_CONNECT_DEFAULT_RADIUS
         );
+        echo ' ' . esc_html($descriptions[$kind]);
         ?>
     </p>
     <?php
@@ -464,20 +486,23 @@ function shipxio_connect_render_card($section, $title, $lead)
 }
 
 /**
- * A small, static preview of the two appearance settings. admin.js keeps it in
+ * A small, static preview of the appearance settings. admin.js keeps it in
  * step with the fields; without JavaScript it still shows the saved values.
  */
 function shipxio_connect_render_appearance_preview()
 {
     $style = sprintf(
-        '--shipxio-connect-preview-color:%1$s;--shipxio-connect-preview-radius:%2$dpx;'
+        '--shipxio-connect-preview-color:%1$s;--shipxio-connect-preview-button-radius:%2$dpx;'
         . '--shipxio-connect-preview-pad-y:%3$dpx;--shipxio-connect-preview-pad-x:%4$dpx;'
-        . '--shipxio-connect-preview-text:%5$s;',
+        . '--shipxio-connect-preview-text:%5$s;--shipxio-connect-preview-form-radius:%6$dpx;'
+        . '--shipxio-connect-preview-container-radius:%7$dpx;',
         shipxio_connect_primary_color(),
-        shipxio_connect_border_radius(),
+        shipxio_connect_border_radius('button'),
         shipxio_connect_button_padding(),
         shipxio_connect_button_padding() + 16,
-        shipxio_connect_button_text_color()
+        shipxio_connect_button_text_color(),
+        shipxio_connect_border_radius('form'),
+        shipxio_connect_border_radius('container') * 2
     );
     ?>
     <div class="shipxio-connect-preview" id="shipxio-connect-preview" style="<?php echo esc_attr($style); ?>">
@@ -486,7 +511,7 @@ function shipxio_connect_render_appearance_preview()
             <span class="shipxio-connect-preview-input"></span>
             <span class="shipxio-connect-preview-button"><?php echo esc_html__('Calculate Estimate', 'shipxio-connect'); ?></span>
         </div>
-        <p class="description"><?php echo esc_html__('An impression of the button and field styling only. The live layout is unchanged.', 'shipxio-connect'); ?></p>
+        <p class="description"><?php echo esc_html__('An impression of the button, field, and container styling.', 'shipxio-connect'); ?></p>
     </div>
     <?php
 }
